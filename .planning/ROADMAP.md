@@ -32,11 +32,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Config loading reads environment variables with sensible defaults for local development
   4. Docker image builds successfully and runs the app with the same health check behavior
   5. pytest runs and passes with at least one test per model validating schema correctness
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md -- Project scaffold + config + FastAPI app + data models
+- [ ] 01-02-PLAN.md -- Tests + Docker
 
 ### Phase 2: Slack Ingress
 **Goal**: The system reliably receives Slack messages from #knowledge-inbox and extracts clean URLs for processing
