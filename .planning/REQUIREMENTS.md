@@ -104,53 +104,53 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INGEST-01 | — | Pending |
-| INGEST-02 | — | Pending |
-| INGEST-03 | — | Pending |
-| INGEST-04 | — | Pending |
-| INGEST-05 | — | Pending |
-| INGEST-06 | — | Pending |
-| INGEST-07 | — | Pending |
-| INGEST-08 | — | Pending |
-| EXTRACT-01 | — | Pending |
-| EXTRACT-02 | — | Pending |
-| EXTRACT-03 | — | Pending |
-| EXTRACT-04 | — | Pending |
-| EXTRACT-05 | — | Pending |
-| EXTRACT-06 | — | Pending |
-| EXTRACT-07 | — | Pending |
-| EXTRACT-08 | — | Pending |
-| LLM-01 | — | Pending |
-| LLM-02 | — | Pending |
-| LLM-03 | — | Pending |
-| LLM-04 | — | Pending |
-| LLM-05 | — | Pending |
-| LLM-06 | — | Pending |
-| LLM-07 | — | Pending |
-| LLM-08 | — | Pending |
-| LLM-09 | — | Pending |
-| LLM-10 | — | Pending |
-| NOTION-01 | — | Pending |
-| NOTION-02 | — | Pending |
-| NOTION-03 | — | Pending |
-| NOTION-04 | — | Pending |
-| NOTIFY-01 | — | Pending |
-| NOTIFY-02 | — | Pending |
-| NOTIFY-03 | — | Pending |
-| NOTIFY-04 | — | Pending |
-| DEPLOY-01 | — | Pending |
-| DEPLOY-02 | — | Pending |
-| DEPLOY-03 | — | Pending |
-| DEPLOY-04 | — | Pending |
-| DEPLOY-05 | — | Pending |
-| DEPLOY-06 | — | Pending |
-| DEPLOY-07 | — | Pending |
+| INGEST-01 | Phase 2 | Pending |
+| INGEST-02 | Phase 2 | Pending |
+| INGEST-03 | Phase 2 | Pending |
+| INGEST-04 | Phase 2 | Pending |
+| INGEST-05 | Phase 2 | Pending |
+| INGEST-06 | Phase 2 | Pending |
+| INGEST-07 | Phase 2 | Pending |
+| INGEST-08 | Phase 2 | Pending |
+| EXTRACT-01 | Phase 3 | Pending |
+| EXTRACT-02 | Phase 3 | Pending |
+| EXTRACT-03 | Phase 3 | Pending |
+| EXTRACT-04 | Phase 3 | Pending |
+| EXTRACT-05 | Phase 3 | Pending |
+| EXTRACT-06 | Phase 3 | Pending |
+| EXTRACT-07 | Phase 3 | Pending |
+| EXTRACT-08 | Phase 3 | Pending |
+| LLM-01 | Phase 4 | Pending |
+| LLM-02 | Phase 4 | Pending |
+| LLM-03 | Phase 4 | Pending |
+| LLM-04 | Phase 4 | Pending |
+| LLM-05 | Phase 4 | Pending |
+| LLM-06 | Phase 4 | Pending |
+| LLM-07 | Phase 4 | Pending |
+| LLM-08 | Phase 4 | Pending |
+| LLM-09 | Phase 4 | Pending |
+| LLM-10 | Phase 4 | Pending |
+| NOTION-01 | Phase 5 | Pending |
+| NOTION-02 | Phase 5 | Pending |
+| NOTION-03 | Phase 5 | Pending |
+| NOTION-04 | Phase 5 | Pending |
+| NOTIFY-01 | Phase 6 | Pending |
+| NOTIFY-02 | Phase 6 | Pending |
+| NOTIFY-03 | Phase 6 | Pending |
+| NOTIFY-04 | Phase 6 | Pending |
+| DEPLOY-01 | Phase 7 | Pending |
+| DEPLOY-02 | Phase 7 | Pending |
+| DEPLOY-03 | Phase 7 | Pending |
+| DEPLOY-04 | Phase 7 | Pending |
+| DEPLOY-05 | Phase 7 | Pending |
+| DEPLOY-06 | Phase 7 | Pending |
+| DEPLOY-07 | Phase 7 | Pending |
 
 **Coverage:**
 - v1 requirements: 41 total
-- Mapped to phases: 0
-- Unmapped: 41
+- Mapped to phases: 41
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-19*
-*Last updated: 2026-02-19 after initial definition*
+*Last updated: 2026-02-19 after roadmap creation*
