@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 3: Content Extraction
+**Current focus:** Phase 4: LLM Processing
 
 ## Current Position
 
-Phase: 3 of 7 (Content Extraction) -- COMPLETE
-Plan: 2 of 2 in current phase (all plans done)
-Status: Phase 3 Complete -- Ready for Phase 4
-Last activity: 2026-02-20 -- Completed 03-02-PLAN.md (Extraction pipeline + tests)
+Phase: 4 of 7 (LLM Processing)
+Plan: 1 of 2 in current phase
+Status: Executing Phase 4 -- Plan 01 complete
+Last activity: 2026-02-20 -- Completed 04-01-PLAN.md (LLM foundation modules)
 
-Progress: [████░░░░░░] 43%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 3.2min
-- Total execution time: 19min
+- Total plans completed: 7
+- Average duration: 3.1min
+- Total execution time: 22min
 
 **By Phase:**
 
@@ -33,9 +33,10 @@ Progress: [████░░░░░░] 43%
 | Phase 02 P02 | 3min | 2 tasks | 4 files |
 | Phase 03 P01 | 4min | 2 tasks | 10 files |
 | Phase 03 P02 | 4min | 2 tasks | 10 files |
+| Phase 04 P01 | 3min | 2 tasks | 5 files |
 
 **Recent Trend:**
-- Last 5 plans: 2min, 3min, 3min, 4min, 4min
+- Last 5 plans: 3min, 3min, 4min, 4min, 3min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -67,6 +68,11 @@ Recent decisions affecting current work:
 - [Phase 03]: extract_content is an alias for extract_with_timeout -- clean public API name
 - [Phase 03]: Transient errors (httpx, connection, OS) get one retry; permanent YouTube errors not retried
 - [Phase 03]: 3-second minimum remaining budget threshold before attempting retry
+- [Phase 04]: LLMResponse contains only LLM-generated fields -- source/date/status/content_type from extraction metadata
+- [Phase 04]: No HttpRetryOptions on Gemini client -- tenacity handles retries to avoid double-retry
+- [Phase 04]: Short content addendum for ANY content type under 500 words
+- [Phase 04]: 58 seeded tags as module constant for easy maintenance
+- [Phase 04]: GEMINI_MODEL as constant not config for preview model management
 
 ### Pending Todos
 
@@ -74,7 +80,7 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Research]: Gemini 3 Flash Preview structured output API specifics need verification before Phase 4 (LOW confidence on exact syntax)
+- [Research]: Gemini 3 Flash Preview structured output API -- google-genai v1.64.0 installed and imports verified (Phase 4 Plan 01)
 - [Research]: youtube-transcript-api verified working (v1.2.4 installed) -- instance fetch() method confirmed
 - [Research]: Cloud Run "always allocated" flag name needs verification before Phase 7
 - [Research]: All package versions from training data -- must verify against PyPI before writing requirements.txt
@@ -83,5 +89,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 03-02-PLAN.md (Phase 3 complete)
-Resume file: .planning/phases/03-content-extraction/03-02-SUMMARY.md
+Stopped at: Completed 04-01-PLAN.md (LLM foundation modules)
+Resume file: .planning/phases/04-llm-processing/04-01-SUMMARY.md
