@@ -48,11 +48,11 @@ Plans:
   3. URLs are correctly extracted from Slack's `<url|label>` format, including multiple URLs in a single message
   4. Shortened/redirect URLs (t.co, bit.ly) are resolved to their final destination before being passed downstream
   5. Non-URL text from the message is captured as a user note alongside the extracted URLs
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md -- Slack ingress implementation (dependencies, config, verification, URLs, handlers, router)
+- [ ] 02-02-PLAN.md -- TDD tests (URL extraction unit tests, handler filter tests, router integration tests)
 
 ### Phase 3: Content Extraction
 **Goal**: The system extracts meaningful text and metadata from article URLs and YouTube videos
@@ -140,7 +140,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Foundation | 2/2 | Complete    | 2026-02-20 |
-| 2. Slack Ingress | 0/? | Not started | - |
+| 2. Slack Ingress | 0/2 | Not started | - |
 | 3. Content Extraction | 0/? | Not started | - |
 | 4. LLM Processing | 0/? | Not started | - |
 | 5. Notion Output | 0/? | Not started | - |
