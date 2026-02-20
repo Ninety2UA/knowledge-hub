@@ -80,11 +80,11 @@ Plans:
   3. Category is assigned from the 11 fixed options, tags are selected from the seeded set or genuinely new ones suggested, and priority is assigned as High/Medium/Low
   4. Every LLM response is validated against a Pydantic schema before being passed to Notion -- invalid responses are caught and retried
   5. Gemini API failures are retried with exponential backoff (max 3 attempts) before being reported as errors
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md -- LLM response schema + Gemini client + prompt templates + dependencies
+- [ ] 04-02-PLAN.md -- LLM processor with retry logic + response mapping + comprehensive tests
 
 ### Phase 5: Notion Output
 **Goal**: The system creates fully populated Notion knowledge base pages and manages the database schema
