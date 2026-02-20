@@ -6,6 +6,7 @@ from fastapi import BackgroundTasks
 from fastapi.responses import JSONResponse
 
 from knowledge_hub.config import get_settings
+from knowledge_hub.extraction import extract_content
 from knowledge_hub.models.slack import SlackEvent
 from knowledge_hub.slack.urls import extract_urls, extract_user_note, resolve_urls
 
@@ -124,5 +125,13 @@ async def process_message_urls(
             extracted_urls=[url],
             user_note=user_note,
         )
-        # Phase 3+ will process each event through the extraction pipeline
+        # Phase 3: extract content from each URL
+        result = await extract_content(url)
+        logger.info(
+            "Extraction %s for %s (method=%s)",
+            result.extraction_status.value,
+            url,
+            result.extraction_method,
+        )
+        # Phase 4+ will consume the ExtractedContent result for LLM processing
         logger.debug("Created SlackEvent for URL: %s", event.extracted_urls[0])
