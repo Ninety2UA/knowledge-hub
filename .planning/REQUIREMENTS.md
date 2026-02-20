@@ -24,7 +24,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **EXTRACT-02**: System extracts YouTube video transcripts via youtube-transcript-api
 - [x] **EXTRACT-03**: System extracts metadata (title, author, date, source domain) from all content types
 - [x] **EXTRACT-04**: System detects content type from URL patterns (YouTube, Substack, Medium, etc.)
-- [ ] **EXTRACT-05**: System enforces 30-second timeout for content extraction with graceful failure
+- [x] **EXTRACT-05**: System enforces 30-second timeout for content extraction with graceful failure
 - [x] **EXTRACT-06**: System detects paywalled content and flags entry as partial extraction
 - [x] **EXTRACT-07**: System falls back to metadata-only processing for YouTube videos without captions
 - [x] **EXTRACT-08**: System extracts text content from PDF links
@@ -116,7 +116,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXTRACT-02 | Phase 3 | Complete |
 | EXTRACT-03 | Phase 3 | Complete |
 | EXTRACT-04 | Phase 3 | Complete |
-| EXTRACT-05 | Phase 3 | Pending |
+| EXTRACT-05 | Phase 3 | Complete |
 | EXTRACT-06 | Phase 3 | Complete |
 | EXTRACT-07 | Phase 3 | Complete |
 | EXTRACT-08 | Phase 3 | Complete |

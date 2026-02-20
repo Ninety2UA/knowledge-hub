@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 
 ## Current Position
 
-Phase: 3 of 7 (Content Extraction)
-Plan: 1 of 2 in current phase
-Status: Executing Phase 3
-Last activity: 2026-02-20 -- Completed 03-01-PLAN.md (Extraction building blocks)
+Phase: 3 of 7 (Content Extraction) -- COMPLETE
+Plan: 2 of 2 in current phase (all plans done)
+Status: Phase 3 Complete -- Ready for Phase 4
+Last activity: 2026-02-20 -- Completed 03-02-PLAN.md (Extraction pipeline + tests)
 
-Progress: [████░░░░░░] 36%
+Progress: [████░░░░░░] 43%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 3.0min
-- Total execution time: 15min
+- Total plans completed: 6
+- Average duration: 3.2min
+- Total execution time: 19min
 
 **By Phase:**
 
@@ -32,9 +32,10 @@ Progress: [████░░░░░░] 36%
 | Phase 02 P01 | 3min | 2 tasks | 9 files |
 | Phase 02 P02 | 3min | 2 tasks | 4 files |
 | Phase 03 P01 | 4min | 2 tasks | 10 files |
+| Phase 03 P02 | 4min | 2 tasks | 10 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 2min, 3min, 3min, 4min
+- Last 5 plans: 2min, 3min, 3min, 4min, 4min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -63,6 +64,9 @@ Recent decisions affecting current work:
 - [Phase 03]: Paywalled domains YAML stored in extraction/ package (not config/) to avoid shadowing config.py
 - [Phase 03]: PyYAML used via trafilatura transitive dependency
 - [Phase 03]: 200-word threshold for paywall partial detection on known paywalled domains
+- [Phase 03]: extract_content is an alias for extract_with_timeout -- clean public API name
+- [Phase 03]: Transient errors (httpx, connection, OS) get one retry; permanent YouTube errors not retried
+- [Phase 03]: 3-second minimum remaining budget threshold before attempting retry
 
 ### Pending Todos
 
@@ -79,5 +83,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-content-extraction/03-01-SUMMARY.md
+Stopped at: Completed 03-02-PLAN.md (Phase 3 complete)
+Resume file: .planning/phases/03-content-extraction/03-02-SUMMARY.md
