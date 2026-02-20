@@ -64,11 +64,11 @@ Plans:
   3. YouTube videos without captions fall back to metadata-only extraction (no crash, no empty result)
   4. Paywalled content is detected and flagged as partial extraction rather than silently returning empty content
   5. All extraction operations complete or timeout within 30 seconds with a graceful failure message
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md -- Model update + content type router + paywall config + extractors (article, YouTube, PDF)
+- [ ] 03-02-PLAN.md -- Pipeline orchestration + timeout wrapper + comprehensive TDD tests
 
 ### Phase 4: LLM Processing
 **Goal**: The system transforms extracted content into structured, actionable knowledge entries via Gemini
