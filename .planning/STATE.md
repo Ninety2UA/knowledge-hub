@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 2: Slack Ingress
+**Current focus:** Phase 3: Content Extraction
 
 ## Current Position
 
-Phase: 2 of 7 (Slack Ingress)
-Plan: 2 of 2 in current phase (PHASE COMPLETE)
-Status: Phase 2 complete
-Last activity: 2026-02-20 -- Completed 02-02-PLAN.md (Slack ingress TDD tests)
+Phase: 3 of 7 (Content Extraction)
+Plan: 1 of 2 in current phase
+Status: Executing Phase 3
+Last activity: 2026-02-20 -- Completed 03-01-PLAN.md (Extraction building blocks)
 
-Progress: [███░░░░░░░] 29%
+Progress: [████░░░░░░] 36%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 2.8min
-- Total execution time: 11min
+- Total plans completed: 5
+- Average duration: 3.0min
+- Total execution time: 15min
 
 **By Phase:**
 
@@ -31,9 +31,10 @@ Progress: [███░░░░░░░] 29%
 | Phase 01 P02 | 2min | 2 tasks | 10 files |
 | Phase 02 P01 | 3min | 2 tasks | 9 files |
 | Phase 02 P02 | 3min | 2 tasks | 4 files |
+| Phase 03 P01 | 4min | 2 tasks | 10 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 2min, 3min, 3min
+- Last 5 plans: 3min, 2min, 3min, 3min, 4min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -59,6 +60,9 @@ Recent decisions affecting current work:
 - [Phase 02]: Sync tests for pure functions, async for httpx-dependent functions
 - [Phase 02]: HMAC signing helper in test_router.py (not conftest) -- scoped to router tests only
 - [Phase 02]: unittest.mock.patch over FastAPI dependency override for simpler unit test isolation
+- [Phase 03]: Paywalled domains YAML stored in extraction/ package (not config/) to avoid shadowing config.py
+- [Phase 03]: PyYAML used via trafilatura transitive dependency
+- [Phase 03]: 200-word threshold for paywall partial detection on known paywalled domains
 
 ### Pending Todos
 
@@ -67,7 +71,7 @@ None yet.
 ### Blockers/Concerns
 
 - [Research]: Gemini 3 Flash Preview structured output API specifics need verification before Phase 4 (LOW confidence on exact syntax)
-- [Research]: youtube-transcript-api current status should be verified before Phase 3 (check GitHub issues for recent breakage)
+- [Research]: youtube-transcript-api verified working (v1.2.4 installed) -- instance fetch() method confirmed
 - [Research]: Cloud Run "always allocated" flag name needs verification before Phase 7
 - [Research]: All package versions from training data -- must verify against PyPI before writing requirements.txt
 - [Phase 01]: Docker not installed on dev machine -- Dockerfile created but build/run verification deferred to Phase 7
@@ -75,5 +79,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-02-PLAN.md (Phase 2 complete)
-Resume file: .planning/phases/02-slack-ingress/02-02-SUMMARY.md
+Stopped at: Completed 03-01-PLAN.md
+Resume file: .planning/phases/03-content-extraction/03-01-SUMMARY.md
