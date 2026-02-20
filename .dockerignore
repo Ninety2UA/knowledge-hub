@@ -1,0 +1,14 @@
+.venv/
+.git/
+.env
+.env.*
+__pycache__/
+*.pyc
+tests/
+docs/
+.planning/
+.claude/
+.DS_Store
+*.egg-info/
+dist/
+build/
