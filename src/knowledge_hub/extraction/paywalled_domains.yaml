@@ -1,0 +1,17 @@
+# Known paywalled domains. Extraction still attempted but result flagged as partial.
+domains:
+  # Major newspapers
+  - nytimes.com
+  - washingtonpost.com
+  - wsj.com
+  - ft.com
+  - economist.com
+  - thetimes.co.uk
+  - bloomberg.com
+  - theathletic.com
+  # Tech/business
+  - hbr.org
+  - businessinsider.com
+  - seekingalpha.com
+  # Platform paywalls (member-only content)
+  - medium.com

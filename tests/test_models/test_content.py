@@ -1,6 +1,6 @@
-"""Tests for the ExtractedContent model and ContentType enum."""
+"""Tests for the ExtractedContent model, ContentType enum, and ExtractionStatus enum."""
 
-from knowledge_hub.models.content import ContentType, ExtractedContent
+from knowledge_hub.models.content import ContentType, ExtractedContent, ExtractionStatus
 
 
 def test_extracted_content_minimal():
@@ -35,7 +35,7 @@ def test_extracted_content_full():
         word_count=500,
         duration_seconds=600,
         extraction_method="youtube-transcript-api",
-        is_partial=True,
+        extraction_status=ExtractionStatus.PARTIAL,
     )
     assert content.url == "https://youtube.com/watch?v=abc"
     assert content.content_type == ContentType.VIDEO
@@ -45,7 +45,7 @@ def test_extracted_content_full():
     assert content.transcript == "Hello and welcome to the video..."
     assert content.word_count == 500
     assert content.duration_seconds == 600
-    assert content.is_partial is True
+    assert content.extraction_status == ExtractionStatus.PARTIAL
 
 
 def test_content_type_enum_values():
@@ -61,10 +61,20 @@ def test_content_type_enum_values():
     assert ContentType.PDF.value == "PDF"
 
 
-def test_extracted_content_is_partial_default():
-    """Assert is_partial defaults to False."""
+def test_extraction_status_enum_values():
+    """Assert ExtractionStatus has exactly 4 members with correct string values."""
+    members = list(ExtractionStatus)
+    assert len(members) == 4
+    assert ExtractionStatus.FULL.value == "full"
+    assert ExtractionStatus.PARTIAL.value == "partial"
+    assert ExtractionStatus.METADATA_ONLY.value == "metadata_only"
+    assert ExtractionStatus.FAILED.value == "failed"
+
+
+def test_extracted_content_extraction_status_default():
+    """Assert extraction_status defaults to ExtractionStatus.FULL."""
     content = ExtractedContent(url="https://example.com", content_type=ContentType.ARTICLE)
-    assert content.is_partial is False
+    assert content.extraction_status == ExtractionStatus.FULL
 
 
 def test_extracted_content_article_no_transcript():

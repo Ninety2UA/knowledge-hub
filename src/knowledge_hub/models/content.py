@@ -17,6 +17,15 @@ class ContentType(str, Enum):
     PDF = "PDF"
 
 
+class ExtractionStatus(str, Enum):
+    """Extraction outcome status."""
+
+    FULL = "full"
+    PARTIAL = "partial"
+    METADATA_ONLY = "metadata_only"
+    FAILED = "failed"
+
+
 class ExtractedContent(BaseModel):
     """Content extracted from a URL. Single model with optional fields for all content types."""
 
@@ -32,4 +41,4 @@ class ExtractedContent(BaseModel):
     word_count: int | None = None
     duration_seconds: int | None = None  # Video duration (None for articles)
     extraction_method: str | None = None  # e.g., "trafilatura", "youtube-transcript-api"
-    is_partial: bool = False  # True if paywall detected or extraction incomplete
+    extraction_status: ExtractionStatus = ExtractionStatus.FULL

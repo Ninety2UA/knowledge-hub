@@ -9,6 +9,9 @@ dependencies = [
     "pydantic-settings>=2.13.0",
     "slack-sdk>=3.40.1",
     "httpx>=0.28.1",
+    "trafilatura>=2.0.0",
+    "youtube-transcript-api>=1.2.4",
+    "pypdf>=6.7.1",
 ]
 
 [dependency-groups]
