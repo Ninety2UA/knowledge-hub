@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 2 of 7 (Slack Ingress)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-02-20 -- Completed 02-01-PLAN.md (Slack ingress implementation)
+Plan: 2 of 2 in current phase (PHASE COMPLETE)
+Status: Phase 2 complete
+Last activity: 2026-02-20 -- Completed 02-02-PLAN.md (Slack ingress TDD tests)
 
-Progress: [███░░░░░░░] 21%
+Progress: [███░░░░░░░] 29%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 2.7min
-- Total execution time: 8min
+- Total plans completed: 4
+- Average duration: 2.8min
+- Total execution time: 11min
 
 **By Phase:**
 
@@ -30,9 +30,10 @@ Progress: [███░░░░░░░] 21%
 | Phase 01 P01 | 3min | 2 tasks | 15 files |
 | Phase 01 P02 | 2min | 2 tasks | 10 files |
 | Phase 02 P01 | 3min | 2 tasks | 9 files |
+| Phase 02 P02 | 3min | 2 tasks | 4 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 2min, 3min
+- Last 5 plans: 3min, 2min, 3min, 3min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -55,6 +56,9 @@ Recent decisions affecting current work:
 - [Phase 02]: GET for redirect resolution instead of HEAD (some shorteners reject HEAD)
 - [Phase 02]: Retry dedup at router level via X-Slack-Retry-Num header
 - [Phase 02]: Background task creates per-URL SlackEvent for Phase 3+ handoff
+- [Phase 02]: Sync tests for pure functions, async for httpx-dependent functions
+- [Phase 02]: HMAC signing helper in test_router.py (not conftest) -- scoped to router tests only
+- [Phase 02]: unittest.mock.patch over FastAPI dependency override for simpler unit test isolation
 
 ### Pending Todos
 
@@ -71,5 +75,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-01-PLAN.md
-Resume file: .planning/phases/02-slack-ingress/02-01-SUMMARY.md
+Stopped at: Completed 02-02-PLAN.md (Phase 2 complete)
+Resume file: .planning/phases/02-slack-ingress/02-02-SUMMARY.md

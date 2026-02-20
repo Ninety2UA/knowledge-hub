@@ -13,7 +13,7 @@ This roadmap delivers a hosted Slack-to-Notion automation pipeline in 7 phases f
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Project Foundation** - Runnable FastAPI skeleton with data models, config, Docker, and test infrastructure
-- [ ] **Phase 2: Slack Ingress** - Webhook handler that receives Slack events, validates them, extracts URLs, and dispatches to background processing
+- [x] **Phase 2: Slack Ingress** - Webhook handler that receives Slack events, validates them, extracts URLs, and dispatches to background processing
 - [ ] **Phase 3: Content Extraction** - Extractors for articles and YouTube videos with content-type routing, timeouts, and fallback handling
 - [ ] **Phase 4: LLM Processing** - Gemini-powered structured content analysis with 4-section output, categorization, tagging, and priority assignment
 - [ ] **Phase 5: Notion Output** - Page creation with all 10 properties, 4-section body, duplicate detection, and tag schema management
@@ -52,7 +52,7 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md -- Slack ingress implementation (dependencies, config, verification, URLs, handlers, router)
-- [ ] 02-02-PLAN.md -- TDD tests (URL extraction unit tests, handler filter tests, router integration tests)
+- [x] 02-02-PLAN.md -- TDD tests (URL extraction unit tests, handler filter tests, router integration tests)
 
 ### Phase 3: Content Extraction
 **Goal**: The system extracts meaningful text and metadata from article URLs and YouTube videos
@@ -140,7 +140,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Foundation | 2/2 | Complete    | 2026-02-20 |
-| 2. Slack Ingress | 0/2 | Not started | - |
+| 2. Slack Ingress | 2/2 | Complete    | 2026-02-20 |
 | 3. Content Extraction | 0/? | Not started | - |
 | 4. LLM Processing | 0/? | Not started | - |
 | 5. Notion Output | 0/? | Not started | - |
