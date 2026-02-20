@@ -12,7 +12,7 @@ This roadmap delivers a hosted Slack-to-Notion automation pipeline in 7 phases f
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Project Foundation** - Runnable FastAPI skeleton with data models, config, Docker, and test infrastructure
+- [x] **Phase 1: Project Foundation** - Runnable FastAPI skeleton with data models, config, Docker, and test infrastructure
 - [ ] **Phase 2: Slack Ingress** - Webhook handler that receives Slack events, validates them, extracts URLs, and dispatches to background processing
 - [ ] **Phase 3: Content Extraction** - Extractors for articles and YouTube videos with content-type routing, timeouts, and fallback handling
 - [ ] **Phase 4: LLM Processing** - Gemini-powered structured content analysis with 4-section output, categorization, tagging, and priority assignment
@@ -36,7 +36,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md -- Project scaffold + config + FastAPI app + data models
-- [ ] 01-02-PLAN.md -- Tests + Docker
+- [x] 01-02-PLAN.md -- Tests + Docker
 
 ### Phase 2: Slack Ingress
 **Goal**: The system reliably receives Slack messages from #knowledge-inbox and extracts clean URLs for processing
@@ -139,7 +139,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Foundation | 1/2 | In Progress | - |
+| 1. Project Foundation | 2/2 | Complete | 2026-02-20 |
 | 2. Slack Ingress | 0/? | Not started | - |
 | 3. Content Extraction | 0/? | Not started | - |
 | 4. LLM Processing | 0/? | Not started | - |
