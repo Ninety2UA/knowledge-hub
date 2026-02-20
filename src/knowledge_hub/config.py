@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     # Slack
     slack_bot_token: str = ""
     slack_signing_secret: str = ""
+    allowed_user_id: str = ""
 
     # Notion
     notion_api_key: str = ""
