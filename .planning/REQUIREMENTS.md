@@ -9,14 +9,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Input & Ingestion
 
-- [ ] **INGEST-01**: System accepts webhook events from `#knowledge-inbox` Slack channel
-- [ ] **INGEST-02**: System extracts URLs from Slack message format (handles `<url|display>` unfurling)
-- [ ] **INGEST-03**: System captures non-URL text as user note included in Notion entry
-- [ ] **INGEST-04**: System ACKs Slack within 3 seconds and processes asynchronously in background
-- [ ] **INGEST-05**: System ignores bot messages to prevent feedback loops
-- [ ] **INGEST-06**: System ignores messages containing no URLs
-- [ ] **INGEST-07**: System processes multiple URLs in a single message as separate entries
-- [ ] **INGEST-08**: System resolves redirects and shortened URLs (t.co, bit.ly) before processing
+- [x] **INGEST-01**: System accepts webhook events from `#knowledge-inbox` Slack channel
+- [x] **INGEST-02**: System extracts URLs from Slack message format (handles `<url|display>` unfurling)
+- [x] **INGEST-03**: System captures non-URL text as user note included in Notion entry
+- [x] **INGEST-04**: System ACKs Slack within 3 seconds and processes asynchronously in background
+- [x] **INGEST-05**: System ignores bot messages to prevent feedback loops
+- [x] **INGEST-06**: System ignores messages containing no URLs
+- [x] **INGEST-07**: System processes multiple URLs in a single message as separate entries
+- [x] **INGEST-08**: System resolves redirects and shortened URLs (t.co, bit.ly) before processing
 
 ### Content Extraction
 
@@ -104,14 +104,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INGEST-01 | Phase 2 | Pending |
-| INGEST-02 | Phase 2 | Pending |
-| INGEST-03 | Phase 2 | Pending |
-| INGEST-04 | Phase 2 | Pending |
-| INGEST-05 | Phase 2 | Pending |
-| INGEST-06 | Phase 2 | Pending |
-| INGEST-07 | Phase 2 | Pending |
-| INGEST-08 | Phase 2 | Pending |
+| INGEST-01 | Phase 2 | Complete |
+| INGEST-02 | Phase 2 | Complete |
+| INGEST-03 | Phase 2 | Complete |
+| INGEST-04 | Phase 2 | Complete |
+| INGEST-05 | Phase 2 | Complete |
+| INGEST-06 | Phase 2 | Complete |
+| INGEST-07 | Phase 2 | Complete |
+| INGEST-08 | Phase 2 | Complete |
 | EXTRACT-01 | Phase 3 | Pending |
 | EXTRACT-02 | Phase 3 | Pending |
 | EXTRACT-03 | Phase 3 | Pending |

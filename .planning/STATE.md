@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 1: Project Foundation
+**Current focus:** Phase 2: Slack Ingress
 
 ## Current Position
 
-Phase: 1 of 7 (Project Foundation) -- COMPLETE
-Plan: 2 of 2 in current phase (all plans complete)
-Status: Phase complete
-Last activity: 2026-02-20 -- Completed 01-02-PLAN.md (tests + Docker)
+Phase: 2 of 7 (Slack Ingress)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-02-20 -- Completed 02-01-PLAN.md (Slack ingress implementation)
 
-Progress: [██░░░░░░░░] 14%
+Progress: [███░░░░░░░] 21%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 2.5min
-- Total execution time: 5min
+- Total plans completed: 3
+- Average duration: 2.7min
+- Total execution time: 8min
 
 **By Phase:**
 
@@ -29,9 +29,10 @@ Progress: [██░░░░░░░░] 14%
 |-------|-------|-------|----------|
 | Phase 01 P01 | 3min | 2 tasks | 15 files |
 | Phase 01 P02 | 2min | 2 tasks | 10 files |
+| Phase 02 P01 | 3min | 2 tasks | 9 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 2min
+- Last 5 plans: 3min, 2min, 3min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -51,6 +52,9 @@ Recent decisions affecting current work:
 - [Phase 01]: Plain def tests (not async) since TestClient handles async internally
 - [Phase 01]: Session-scoped TestClient fixture to avoid re-creating ASGI app per test
 - [Phase 01]: Docker build verification deferred -- Docker not installed on dev machine
+- [Phase 02]: GET for redirect resolution instead of HEAD (some shorteners reject HEAD)
+- [Phase 02]: Retry dedup at router level via X-Slack-Retry-Num header
+- [Phase 02]: Background task creates per-URL SlackEvent for Phase 3+ handoff
 
 ### Pending Todos
 
@@ -67,5 +71,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 01-02-PLAN.md (Phase 1 complete)
-Resume file: .planning/phases/01-project-foundation/01-02-SUMMARY.md
+Stopped at: Completed 02-01-PLAN.md
+Resume file: .planning/phases/02-slack-ingress/02-01-SUMMARY.md
