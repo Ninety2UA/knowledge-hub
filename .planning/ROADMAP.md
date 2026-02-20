@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Project Foundation** - Runnable FastAPI skeleton with data models, config, Docker, and test infrastructure
 - [x] **Phase 2: Slack Ingress** - Webhook handler that receives Slack events, validates them, extracts URLs, and dispatches to background processing
-- [ ] **Phase 3: Content Extraction** - Extractors for articles and YouTube videos with content-type routing, timeouts, and fallback handling
+- [x] **Phase 3: Content Extraction** - Extractors for articles and YouTube videos with content-type routing, timeouts, and fallback handling (completed 2026-02-20)
 - [ ] **Phase 4: LLM Processing** - Gemini-powered structured content analysis with 4-section output, categorization, tagging, and priority assignment
 - [ ] **Phase 5: Notion Output** - Page creation with all 10 properties, 4-section body, duplicate detection, and tag schema management
 - [ ] **Phase 6: Pipeline Integration & Notifications** - End-to-end orchestration wiring all services together with Slack thread replies for every outcome
@@ -141,7 +141,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 |-------|----------------|--------|-----------|
 | 1. Project Foundation | 2/2 | Complete    | 2026-02-20 |
 | 2. Slack Ingress | 2/2 | Complete    | 2026-02-20 |
-| 3. Content Extraction | 0/? | Not started | - |
+| 3. Content Extraction | 0/? | Complete    | 2026-02-20 |
 | 4. LLM Processing | 0/? | Not started | - |
 | 5. Notion Output | 0/? | Not started | - |
 | 6. Pipeline Integration & Notifications | 0/? | Not started | - |
