@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 4: LLM Processing
+**Current focus:** Phase 4 complete -- Phase 5: Notion Writing next
 
 ## Current Position
 
-Phase: 4 of 7 (LLM Processing)
-Plan: 1 of 2 in current phase
-Status: Executing Phase 4 -- Plan 01 complete
-Last activity: 2026-02-20 -- Completed 04-01-PLAN.md (LLM foundation modules)
+Phase: 4 of 7 (LLM Processing) -- COMPLETE
+Plan: 2 of 2 in current phase (all done)
+Status: Phase 4 complete -- ready for Phase 5
+Last activity: 2026-02-20 -- Completed 04-02-PLAN.md (LLM processor + tests)
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 57%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 3.1min
-- Total execution time: 22min
+- Total execution time: 25min
 
 **By Phase:**
 
@@ -34,9 +34,10 @@ Progress: [█████░░░░░] 50%
 | Phase 03 P01 | 4min | 2 tasks | 10 files |
 | Phase 03 P02 | 4min | 2 tasks | 10 files |
 | Phase 04 P01 | 3min | 2 tasks | 5 files |
+| Phase 04 P02 | 3min | 2 tasks | 6 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 3min, 4min, 4min, 3min
+- Last 5 plans: 3min, 4min, 4min, 3min, 3min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -73,6 +74,8 @@ Recent decisions affecting current work:
 - [Phase 04]: Short content addendum for ANY content type under 500 words
 - [Phase 04]: 58 seeded tags as module constant for easy maintenance
 - [Phase 04]: GEMINI_MODEL as constant not config for preview model management
+- [Phase 04]: ValidationError from Gemini response logged and re-raised for caller to handle
+- [Phase 04]: Priority override applied to LLMResponse before build_notion_page to keep mapping pure
 
 ### Pending Todos
 
@@ -89,5 +92,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 04-01-PLAN.md (LLM foundation modules)
-Resume file: .planning/phases/04-llm-processing/04-01-SUMMARY.md
+Stopped at: Completed 04-02-PLAN.md (LLM processor + tests) -- Phase 4 complete
+Resume file: .planning/phases/04-llm-processing/04-02-SUMMARY.md

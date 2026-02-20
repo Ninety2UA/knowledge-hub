@@ -35,8 +35,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **LLM-02**: System generates 4-section page body (Summary, Key Points, Key Learnings & Actionable Steps, Detailed Notes)
 - [x] **LLM-03**: System auto-assigns category from 11 fixed options
 - [x] **LLM-04**: System auto-assigns tags (seeded core set + suggests genuinely new ones)
-- [ ] **LLM-05**: System validates LLM output via Pydantic schema before Notion creation
-- [ ] **LLM-06**: System retries Gemini API calls with exponential backoff (max 3 retries)
+- [x] **LLM-05**: System validates LLM output via Pydantic schema before Notion creation
+- [x] **LLM-06**: System retries Gemini API calls with exponential backoff (max 3 retries)
 - [x] **LLM-07**: System generates actionable steps with What / Why it matters / How to apply structure
 - [x] **LLM-08**: System orders key points by importance, not source appearance order
 - [x] **LLM-09**: System assigns priority (High/Medium/Low) based on content relevance signals
@@ -124,8 +124,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LLM-02 | Phase 4 | Complete |
 | LLM-03 | Phase 4 | Complete |
 | LLM-04 | Phase 4 | Complete |
-| LLM-05 | Phase 4 | Pending |
-| LLM-06 | Phase 4 | Pending |
+| LLM-05 | Phase 4 | Complete |
+| LLM-06 | Phase 4 | Complete |
 | LLM-07 | Phase 4 | Complete |
 | LLM-08 | Phase 4 | Complete |
 | LLM-09 | Phase 4 | Complete |
