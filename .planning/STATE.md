@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 7 in progress -- Cloud Run Deployment with secrets management, structured logging, and operational tooling.
+**Current focus:** Phase 7 in progress -- Cloud Run Deployment with token usage tracking, cost logging, and operational tooling.
 
 ## Current Position
 
 Phase: 7 of 7 (Cloud Run Deployment)
-Plan: 1 of 3 in current phase (07-01 complete)
-Status: Executing Phase 7 -- 07-01 complete, 07-02 next
-Last activity: 2026-02-21 -- Completed 07-01-PLAN.md (Structured JSON logging + deploy script)
+Plan: 2 of 3 in current phase (07-02 complete)
+Status: Executing Phase 7 -- 07-02 complete, 07-03 next
+Last activity: 2026-02-21 -- Completed 07-02-PLAN.md (Token usage tracking and cost calculation)
 
-Progress: [█████████░] 90%
+Progress: [█████████░] 93%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
+- Total plans completed: 14
 - Average duration: 3.0min
-- Total execution time: 39min
+- Total execution time: 44min
 
 **By Phase:**
 
@@ -40,9 +40,10 @@ Progress: [█████████░] 90%
 | Phase 06 P01 | 3min | 2 tasks | 7 files |
 | Phase 06 P02 | 3min | 2 tasks | 4 files |
 | Phase 07 P01 | 2min | 2 tasks | 4 files |
+| Phase 07 P02 | 5min | 2 tasks | 8 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 3min, 3min, 3min, 2min
+- Last 5 plans: 3min, 3min, 3min, 2min, 5min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -94,6 +95,8 @@ Recent decisions affecting current work:
 - [Phase 07]: stdout handler (not stderr) to prevent Cloud Run severity override
 - [Phase 07]: Source-based deploy (--source .) avoids needing Docker locally
 - [Phase 07]: Cloud Scheduler commands documented as comments in deploy.sh (require service URL)
+- [Phase 07]: Lazy import of GEMINI_MODEL in log_usage to break circular dependency (cost -> llm.prompts -> llm -> processor -> cost)
+- [Phase 07]: Tuple return (NotionPage, cost_usd) from process_content -- keeps domain model clean, cost is pipeline metadata
 
 ### Pending Todos
 
@@ -110,5 +113,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 07-01-PLAN.md (Structured JSON logging + deploy script)
-Resume file: .planning/phases/07-cloud-run-deployment/07-01-SUMMARY.md
+Stopped at: Completed 07-02-PLAN.md (Token usage tracking and cost calculation)
+Resume file: .planning/phases/07-cloud-run-deployment/07-02-SUMMARY.md
