@@ -163,8 +163,12 @@ async def send_weekly_digest() -> dict:
     settings = get_settings()
 
     # Query Notion for recent entries
-    pages = await query_recent_entries(days=7)
-    entries = [_extract_entry_data(page) for page in pages]
+    try:
+        pages = await query_recent_entries(days=7)
+        entries = [_extract_entry_data(page) for page in pages]
+    except Exception as e:
+        logger.error("Failed to query Notion for digest", extra={"error": str(e)})
+        return {"status": "error", "error": f"Failed to query Notion: {e}"}
 
     # Get accumulated cost
     total_cost = get_weekly_cost()
@@ -172,15 +176,19 @@ async def send_weekly_digest() -> dict:
     # Build message
     message = build_weekly_digest(entries, total_cost=total_cost)
 
-    # Reset weekly accumulator after building digest
-    reset_weekly_cost()
-
     # Send DM
-    client = await get_slack_client()
-    await client.chat_postMessage(
-        channel=settings.allowed_user_id,
-        text=message,
-    )
+    try:
+        client = await get_slack_client()
+        await client.chat_postMessage(
+            channel=settings.allowed_user_id,
+            text=message,
+        )
+    except Exception as e:
+        logger.error("Failed to send digest via Slack", extra={"error": str(e), "entries": len(entries)})
+        return {"status": "error", "error": f"Failed to send Slack message: {e}", "entries": len(entries)}
+
+    # Reset weekly accumulator only after successful send
+    reset_weekly_cost()
 
     logger.info(
         "Weekly digest sent",
@@ -200,11 +208,15 @@ async def check_daily_cost() -> dict:
     cost = get_daily_cost()
 
     if cost > 5.0:
-        client = await get_slack_client()
-        await client.chat_postMessage(
-            channel=settings.allowed_user_id,
-            text=f"Daily Gemini cost alert: ${cost:.2f} exceeds $5.00 threshold",
-        )
+        try:
+            client = await get_slack_client()
+            await client.chat_postMessage(
+                channel=settings.allowed_user_id,
+                text=f"Daily Gemini cost alert: ${cost:.2f} exceeds $5.00 threshold",
+            )
+        except Exception as e:
+            logger.error("Failed to send cost alert via Slack", extra={"error": str(e), "cost_usd": round(cost, 6)})
+            return {"status": "error", "error": f"Failed to send cost alert: {e}", "cost": cost}
         logger.warning(
             "Daily cost alert triggered",
             extra={"cost_usd": round(cost, 6)},

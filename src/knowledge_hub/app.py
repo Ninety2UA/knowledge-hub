@@ -1,5 +1,6 @@
 """FastAPI application with lifespan and health endpoint."""
 
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -8,6 +9,8 @@ from knowledge_hub.config import get_settings
 from knowledge_hub.digest import check_daily_cost, send_weekly_digest
 from knowledge_hub.logging_config import configure_logging
 from knowledge_hub.slack.router import router as slack_router
+
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -51,12 +54,20 @@ async def health():
 @app.post("/digest")
 async def digest_endpoint(_: None = Depends(verify_scheduler)):
     """Trigger weekly digest: query Notion, build summary, send Slack DM."""
-    result = await send_weekly_digest()
-    return result
+    try:
+        result = await send_weekly_digest()
+        return result
+    except Exception as e:
+        logger.error("Digest endpoint failed", extra={"error": str(e)})
+        return {"status": "error", "error": str(e)}
 
 
 @app.post("/cost-check")
 async def cost_check_endpoint(_: None = Depends(verify_scheduler)):
     """Trigger daily cost check: alert if Gemini spend exceeds threshold."""
-    result = await check_daily_cost()
-    return result
+    try:
+        result = await check_daily_cost()
+        return result
+    except Exception as e:
+        logger.error("Cost check endpoint failed", extra={"error": str(e)})
+        return {"status": "error", "error": str(e)}
