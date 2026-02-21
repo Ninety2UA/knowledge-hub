@@ -17,6 +17,7 @@ dependencies = [
     "notion-client>=3.0.0",
     "url-normalize>=2.2.1",
     "cachetools>=7.0.1",
+    "python-json-logger>=3.2.1",
 ]
 
 [dependency-groups]
