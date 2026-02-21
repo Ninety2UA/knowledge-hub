@@ -63,7 +63,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **DEPLOY-03**: System emits structured JSON logs for Cloud Run logging
 - [x] **DEPLOY-04**: System verifies Slack request signatures on every incoming webhook
 - [x] **DEPLOY-05**: Cloud Run configured with `--min-instances=1` to prevent cold start timeouts
-- [ ] **DEPLOY-06**: System sends weekly Slack digest summarizing all entries processed that week
+- [x] **DEPLOY-06**: System sends weekly Slack digest summarizing all entries processed that week
 - [x] **DEPLOY-07**: System logs Gemini token usage and calculates cost per entry
 
 ## v2 Requirements
@@ -143,7 +143,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DEPLOY-03 | Phase 7 | Complete |
 | DEPLOY-04 | Phase 7 | Complete |
 | DEPLOY-05 | Phase 7 | Complete |
-| DEPLOY-06 | Phase 7 | Pending |
+| DEPLOY-06 | Phase 7 | Complete |
 | DEPLOY-07 | Phase 7 | Complete |
 
 **Coverage:**

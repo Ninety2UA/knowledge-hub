@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 7 of 7 (Cloud Run Deployment)
-Plan: 2 of 3 in current phase (07-02 complete)
-Status: Executing Phase 7 -- 07-02 complete, 07-03 next
-Last activity: 2026-02-21 -- Completed 07-02-PLAN.md (Token usage tracking and cost calculation)
+Plan: 3 of 3 in current phase (07-03 complete -- PHASE COMPLETE)
+Status: Phase 7 complete -- all plans executed, ready for deployment
+Last activity: 2026-02-21 -- Completed 07-03-PLAN.md (Weekly digest and cost alerts)
 
-Progress: [█████████░] 93%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
-- Average duration: 3.0min
-- Total execution time: 44min
+- Total plans completed: 15
+- Average duration: 3.1min
+- Total execution time: 47min
 
 **By Phase:**
 
@@ -41,9 +41,10 @@ Progress: [█████████░] 93%
 | Phase 06 P02 | 3min | 2 tasks | 4 files |
 | Phase 07 P01 | 2min | 2 tasks | 4 files |
 | Phase 07 P02 | 5min | 2 tasks | 8 files |
+| Phase 07 P03 | 3min | 2 tasks | 7 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 3min, 3min, 2min, 5min
+- Last 5 plans: 3min, 3min, 2min, 5min, 3min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -97,6 +98,9 @@ Recent decisions affecting current work:
 - [Phase 07]: Cloud Scheduler commands documented as comments in deploy.sh (require service URL)
 - [Phase 07]: Lazy import of GEMINI_MODEL in log_usage to break circular dependency (cost -> llm.prompts -> llm -> processor -> cost)
 - [Phase 07]: Tuple return (NotionPage, cost_usd) from process_content -- keeps domain model clean, cost is pipeline metadata
+- [Phase 07]: In-memory cost accumulators (not Cloud Logging queries) -- pragmatic for --min-instances=1 personal tool
+- [Phase 07]: Scheduler secret header auth (X-Scheduler-Secret) for scheduled endpoint protection
+- [Phase 07]: Weekly cost reset after digest send; daily cost not reset by cost-check
 
 ### Pending Todos
 
@@ -113,5 +117,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 07-02-PLAN.md (Token usage tracking and cost calculation)
-Resume file: .planning/phases/07-cloud-run-deployment/07-02-SUMMARY.md
+Stopped at: Completed 07-03-PLAN.md (Weekly digest and cost alerts) -- Phase 7 COMPLETE, all phases done
+Resume file: .planning/phases/07-cloud-run-deployment/07-03-SUMMARY.md
