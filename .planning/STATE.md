@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 6 in progress -- Pipeline Integration with Slack notifications and full pipeline wiring.
+**Current focus:** Phase 6 complete -- Pipeline Integration with Slack notifications, full pipeline wiring, and comprehensive test suite.
 
 ## Current Position
 
-Phase: 6 of 7 (Pipeline Integration)
-Plan: 1 of 2 in current phase (06-01 complete)
-Status: Phase 6 plan 1 complete -- ready for 06-02
-Last activity: 2026-02-21 -- Completed 06-01-PLAN.md (Pipeline wiring + Slack notifications)
+Phase: 6 of 7 (Pipeline Integration) -- COMPLETE
+Plan: 2 of 2 in current phase (06-02 complete)
+Status: Phase 6 complete -- ready for Phase 7
+Last activity: 2026-02-21 -- Completed 06-02-PLAN.md (Pipeline integration tests)
 
-Progress: [████████░░] 79%
+Progress: [█████████░] 86%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 12
 - Average duration: 3.1min
-- Total execution time: 34min
+- Total execution time: 37min
 
 **By Phase:**
 
@@ -38,6 +38,7 @@ Progress: [████████░░] 79%
 | Phase 05 P01 | 3min | 2 tasks | 9 files |
 | Phase 05 P02 | 3min | 2 tasks | 8 files |
 | Phase 06 P01 | 3min | 2 tasks | 7 files |
+| Phase 06 P02 | 3min | 2 tasks | 4 files |
 
 **Recent Trend:**
 - Last 5 plans: 3min, 3min, 3min, 3min, 3min
@@ -86,6 +87,8 @@ Recent decisions affecting current work:
 - [Phase 06]: Fire-and-forget notifications: all 4 notifier functions catch SlackApiError and log, never raise
 - [Phase 06]: Stage classification via exception module path -- avoids coupling to specific exception types
 - [Phase 06]: Duplicates treated as non-failures -- no X reaction for duplicate-only batches
+- [Phase 06]: MagicMock for SlackApiError response -- avoids constructing real SlackResponse objects
+- [Phase 06]: capture_process side_effect pattern to verify user_note propagation through pipeline
 
 ### Pending Todos
 
@@ -102,5 +105,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 06-01-PLAN.md (Pipeline wiring + Slack notifications)
-Resume file: .planning/phases/06-pipeline-integration/06-01-SUMMARY.md
+Stopped at: Completed 06-02-PLAN.md (Pipeline integration tests)
+Resume file: .planning/phases/06-pipeline-integration/06-02-SUMMARY.md
