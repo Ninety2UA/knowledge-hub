@@ -85,11 +85,13 @@ def test_invalid_signature_returns_403(mock_get_settings: MagicMock):
     assert response.status_code == 403
 
 
+@patch("knowledge_hub.slack.handlers.process_message_urls")
 @patch("knowledge_hub.slack.handlers.get_settings")
 @patch("knowledge_hub.slack.verification.get_settings")
 def test_valid_message_returns_200(
     mock_verify_settings: MagicMock,
     mock_handler_settings: MagicMock,
+    mock_process: MagicMock,
 ):
     """Valid event_callback message returns 200 with ok (INGEST-04: ACK fast)."""
     mock_verify_settings.return_value = _mock_settings()
@@ -155,11 +157,13 @@ def test_bot_message_returns_200_no_processing(
     assert response.json() == {"ok": True}
 
 
+@patch("knowledge_hub.slack.handlers.process_message_urls")
 @patch("knowledge_hub.slack.handlers.get_settings")
 @patch("knowledge_hub.slack.verification.get_settings")
 def test_message_with_urls_triggers_background(
     mock_verify_settings: MagicMock,
     mock_handler_settings: MagicMock,
+    mock_process: MagicMock,
 ):
     """Valid message with URLs triggers background dispatch."""
     mock_verify_settings.return_value = _mock_settings()

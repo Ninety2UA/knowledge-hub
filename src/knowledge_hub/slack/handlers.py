@@ -7,7 +7,16 @@ from fastapi.responses import JSONResponse
 
 from knowledge_hub.config import get_settings
 from knowledge_hub.extraction import extract_content
-from knowledge_hub.models.slack import SlackEvent
+from knowledge_hub.llm import get_gemini_client, process_content
+from knowledge_hub.models.content import ExtractionStatus
+from knowledge_hub.notion import create_notion_page
+from knowledge_hub.notion.models import DuplicateResult
+from knowledge_hub.slack.notifier import (
+    add_reaction,
+    notify_duplicate,
+    notify_error,
+    notify_success,
+)
 from knowledge_hub.slack.urls import extract_urls, extract_user_note, resolve_urls
 
 logger = logging.getLogger(__name__)
@@ -102,10 +111,11 @@ async def process_message_urls(
     urls: list[str],
     user_note: str | None,
 ) -> None:
-    """Resolve URLs and create SlackEvent models.
+    """Resolve URLs and process each through the full pipeline.
 
-    This is the background task handoff point for Phase 3+.
-    Currently resolves URLs and creates model instances for future processing.
+    For each URL: extract content -> LLM analysis -> Notion page creation -> Slack notification.
+    Each URL is processed independently -- one failure does not abort others.
+    A single emoji reaction is added to the original message after all URLs are processed.
     """
     resolved = await resolve_urls(urls)
 
@@ -116,22 +126,60 @@ async def process_message_urls(
         timestamp,
     )
 
+    gemini_client = get_gemini_client()
+    all_succeeded = True
+
     for url in resolved:
-        event = SlackEvent(
-            channel_id=channel_id,
-            timestamp=timestamp,
-            user_id=user_id,
-            text=text,
-            extracted_urls=[url],
-            user_note=user_note,
-        )
-        # Phase 3: extract content from each URL
-        result = await extract_content(url)
-        logger.info(
-            "Extraction %s for %s (method=%s)",
-            result.extraction_status.value,
-            url,
-            result.extraction_method,
-        )
-        # Phase 4+ will consume the ExtractedContent result for LLM processing
-        logger.debug("Created SlackEvent for URL: %s", event.extracted_urls[0])
+        try:
+            # Stage 1: Extract content
+            content = await extract_content(url)
+            if content.extraction_status == ExtractionStatus.FAILED:
+                await notify_error(
+                    channel_id, timestamp, url, "extraction",
+                    "Content could not be extracted",
+                )
+                all_succeeded = False
+                continue
+
+            # Pass user_note through to content for LLM prompt
+            content.user_note = user_note
+
+            # Stage 2: LLM processing
+            notion_page = await process_content(gemini_client, content)
+
+            # Stage 3: Notion page creation
+            result = await create_notion_page(notion_page)
+
+            if isinstance(result, DuplicateResult):
+                await notify_duplicate(channel_id, timestamp, url, result)
+                continue  # Duplicate is not a failure
+
+            # Success
+            await notify_success(channel_id, timestamp, result)
+            logger.info("Pipeline complete for %s -> %s", url, result.page_url)
+
+        except Exception as exc:
+            logger.error("Pipeline failed for %s: %s", url, exc, exc_info=True)
+            stage = _classify_stage(exc)
+            await notify_error(channel_id, timestamp, url, stage, str(exc))
+            all_succeeded = False
+
+    # One reaction per message (not per URL) -- checkmark if all succeeded, X if any failed
+    emoji = "white_check_mark" if all_succeeded else "x"
+    await add_reaction(channel_id, timestamp, emoji)
+
+
+def _classify_stage(exc: Exception) -> str:
+    """Classify which pipeline stage an exception originated from.
+
+    Uses exception module path to identify the stage. Falls back to 'processing'
+    for unclassifiable exceptions.
+    """
+    module = type(exc).__module__ or ""
+    if "extraction" in module:
+        return "extraction"
+    if "llm" in module or "genai" in module or "google" in module:
+        return "llm"
+    if "notion" in module:
+        return "notion"
+    return "processing"
