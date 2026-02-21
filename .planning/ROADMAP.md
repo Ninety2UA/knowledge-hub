@@ -126,11 +126,12 @@ Plans:
   3. Slack request signatures are verified on every incoming webhook -- unsigned or tampered requests are rejected
   4. Cold starts do not cause Slack ACK timeouts (min-instances=1) and background tasks survive after HTTP response (CPU always allocated)
   5. Processing logs are structured JSON visible in Cloud Run logging, including Gemini token usage and cost per entry
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 07-01: TBD
-- [ ] 07-02: TBD
+- [ ] 07-01-PLAN.md -- Structured JSON logging + deploy script + Dockerfile verification
+- [ ] 07-02-PLAN.md -- Cost tracking module + pipeline integration + tests
+- [ ] 07-03-PLAN.md -- Weekly digest + daily cost alert + app.py wiring + tests
 
 ## Progress
 
