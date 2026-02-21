@@ -10,6 +10,40 @@ from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
 
+# In-memory cost accumulators (reset on instance restart -- acceptable for personal tool)
+_daily_cost: float = 0.0
+_weekly_cost: float = 0.0
+
+
+def add_cost(amount: float) -> None:
+    """Add cost to both daily and weekly accumulators."""
+    global _daily_cost, _weekly_cost
+    _daily_cost += amount
+    _weekly_cost += amount
+
+
+def get_daily_cost() -> float:
+    """Return accumulated daily Gemini cost."""
+    return _daily_cost
+
+
+def get_weekly_cost() -> float:
+    """Return accumulated weekly Gemini cost."""
+    return _weekly_cost
+
+
+def reset_daily_cost() -> None:
+    """Reset daily cost accumulator to zero."""
+    global _daily_cost
+    _daily_cost = 0.0
+
+
+def reset_weekly_cost() -> None:
+    """Reset weekly cost accumulator to zero."""
+    global _weekly_cost
+    _weekly_cost = 0.0
+
+
 # Gemini 3 Flash pricing -- single source of truth
 INPUT_PRICE_PER_TOKEN = 0.50 / 1_000_000  # $0.50 per 1M input tokens
 OUTPUT_PRICE_PER_TOKEN = 3.00 / 1_000_000  # $3.00 per 1M output tokens
@@ -62,6 +96,9 @@ def log_usage(url: str, usage: TokenUsage) -> None:
         url: The URL that was processed.
         usage: Token usage data from extract_usage.
     """
+    # Accumulate cost for digest/alert tracking
+    add_cost(usage.cost_usd)
+
     # Lazy import to avoid circular dependency (cost -> llm.prompts -> llm -> processor -> cost)
     from knowledge_hub.llm.prompts import GEMINI_MODEL
 

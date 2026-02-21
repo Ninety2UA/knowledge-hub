@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     # Gemini
     gemini_api_key: str = ""
 
+    # Scheduler
+    scheduler_secret: str = ""
+
     # App
     environment: str = "development"
     log_level: str = "INFO"

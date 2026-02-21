@@ -37,7 +37,8 @@ SLACK_SIGNING_SECRET=slack-signing-secret:latest,\
 NOTION_API_KEY=notion-api-key:latest,\
 NOTION_DATABASE_ID=notion-database-id:latest,\
 GEMINI_API_KEY=gemini-api-key:latest,\
-ALLOWED_USER_ID=allowed-user-id:latest" \
+ALLOWED_USER_ID=allowed-user-id:latest,\
+SCHEDULER_SECRET=scheduler-secret:latest" \
     --set-env-vars="ENVIRONMENT=production,LOG_LEVEL=INFO" \
     --min-instances=1 \
     --no-cpu-throttling \
