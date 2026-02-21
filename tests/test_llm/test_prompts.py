@@ -146,3 +146,17 @@ def test_build_user_content_omits_none_fields():
     result = build_user_content(content)
     assert "Title:" not in result
     assert "Author:" not in result
+
+
+def test_build_user_content_with_user_note():
+    """User note is included in output when present."""
+    content = _make_content(user_note="Check this for Q3")
+    result = build_user_content(content)
+    assert "User Note: Check this for Q3" in result
+
+
+def test_build_user_content_without_user_note():
+    """User Note line is absent when user_note is None."""
+    content = _make_content(user_note=None)
+    result = build_user_content(content)
+    assert "User Note" not in result
