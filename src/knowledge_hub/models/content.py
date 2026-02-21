@@ -42,3 +42,4 @@ class ExtractedContent(BaseModel):
     duration_seconds: int | None = None  # Video duration (None for articles)
     extraction_method: str | None = None  # e.g., "trafilatura", "youtube-transcript-api"
     extraction_status: ExtractionStatus = ExtractionStatus.FULL
+    user_note: str | None = None

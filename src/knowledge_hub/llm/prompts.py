@@ -152,6 +152,8 @@ def build_user_content(content: ExtractedContent) -> str:
         parts.append(f"Author: {content.author}")
     if content.source_domain:
         parts.append(f"Source: {content.source_domain}")
+    if content.user_note:
+        parts.append(f"User Note: {content.user_note}")
 
     # Use transcript for videos, text for articles, description as fallback
     body = content.transcript or content.text or content.description or ""
