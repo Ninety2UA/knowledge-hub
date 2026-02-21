@@ -1,9 +1,9 @@
 ---
-status: complete
+status: resolved
 phase: 07-cloud-run-deployment
 source: [07-01-SUMMARY.md, 07-02-SUMMARY.md, 07-03-SUMMARY.md]
 started: 2026-02-21T20:30:00Z
-updated: 2026-02-21T21:45:00Z
+updated: 2026-02-21T22:30:00Z
 ---
 
 ## Current Test
@@ -53,9 +53,17 @@ skipped: 0
 ## Gaps
 
 - truth: "POST /digest with valid auth returns success response"
-  status: failed
+  status: resolved
   reason: "User reported: you said with auth should be 200 but it resulted 500"
   severity: major
   test: 5
-  artifacts: []
-  missing: []
+  root_cause: "send_weekly_digest() in digest.py has no error handling — unconditionally calls Notion and Slack APIs which fail with empty credentials, and app.py /digest endpoint has no try/except so the exception becomes HTTP 500"
+  artifacts:
+    - path: "src/knowledge_hub/digest.py"
+      issue: "send_weekly_digest() lacks error handling around Notion/Slack calls"
+    - path: "src/knowledge_hub/app.py"
+      issue: "/digest endpoint has no try/except"
+  missing:
+    - "Add try/except in /digest endpoint to return structured error instead of 500"
+    - "Or add pre-flight credential check in send_weekly_digest() to skip gracefully when unconfigured"
+  debug_session: ".planning/debug/digest-500-no-credentials.md"
