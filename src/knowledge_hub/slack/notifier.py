@@ -15,20 +15,29 @@ from knowledge_hub.slack.client import get_slack_client
 logger = logging.getLogger(__name__)
 
 
-async def notify_success(channel_id: str, timestamp: str, result: PageResult) -> None:
+async def notify_success(
+    channel_id: str,
+    timestamp: str,
+    result: PageResult,
+    cost_usd: float | None = None,
+) -> None:
     """Post a thread reply with a link to the newly created Notion page.
 
     Args:
         channel_id: Slack channel ID.
         timestamp: Original message timestamp (thread parent).
         result: Successful page creation result with URL and title.
+        cost_usd: Optional Gemini API cost to include in the message.
     """
     try:
         client = await get_slack_client()
+        text = f"Saved to Notion: <{result.page_url}|{result.title}>"
+        if cost_usd is not None:
+            text += f" (Cost: ${cost_usd:.3f})"
         await client.chat_postMessage(
             channel=channel_id,
             thread_ts=timestamp,
-            text=f"Saved to Notion: <{result.page_url}|{result.title}>",
+            text=text,
         )
     except SlackApiError:
         logger.warning(

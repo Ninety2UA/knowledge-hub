@@ -145,7 +145,7 @@ async def process_message_urls(
             content.user_note = user_note
 
             # Stage 2: LLM processing
-            notion_page = await process_content(gemini_client, content)
+            notion_page, cost_usd = await process_content(gemini_client, content)
 
             # Stage 3: Notion page creation
             result = await create_notion_page(notion_page)
@@ -155,7 +155,7 @@ async def process_message_urls(
                 continue  # Duplicate is not a failure
 
             # Success
-            await notify_success(channel_id, timestamp, result)
+            await notify_success(channel_id, timestamp, result, cost_usd=cost_usd)
             logger.info("Pipeline complete for %s -> %s", url, result.page_url)
 
         except Exception as exc:

@@ -20,6 +20,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
+from knowledge_hub.cost import TokenUsage, extract_usage, log_usage
 from knowledge_hub.llm.prompts import GEMINI_MODEL, build_system_prompt, build_user_content
 from knowledge_hub.llm.schemas import LLMResponse
 from knowledge_hub.models.content import ExtractedContent, ExtractionStatus
@@ -53,7 +54,7 @@ async def _call_gemini(
     client: genai.Client,
     system_prompt: str,
     user_content: str,
-) -> LLMResponse:
+) -> object:
     """Call Gemini with structured output, retrying on transient errors.
 
     Args:
@@ -62,7 +63,7 @@ async def _call_gemini(
         user_content: Assembled user message with metadata and body.
 
     Returns:
-        Validated LLMResponse from Gemini structured output.
+        Raw GenerateContentResponse (caller extracts .parsed and usage_metadata).
 
     Raises:
         ClientError: On permanent API errors (400, 401, 403).
@@ -78,7 +79,7 @@ async def _call_gemini(
             temperature=1.0,
         ),
     )
-    return response.parsed
+    return response
 
 
 def build_notion_page(llm_result: LLMResponse, content: ExtractedContent) -> NotionPage:
@@ -126,21 +127,24 @@ def build_notion_page(llm_result: LLMResponse, content: ExtractedContent) -> Not
     )
 
 
-async def process_content(client: genai.Client, content: ExtractedContent) -> NotionPage:
+async def process_content(
+    client: genai.Client, content: ExtractedContent
+) -> tuple[NotionPage, float]:
     """Transform extracted content into a structured NotionPage via Gemini.
 
     This is the main public API for the LLM processing stage. It:
     1. Builds content-type-specific prompts
     2. Calls Gemini with structured output + retry logic
-    3. Applies post-processing rules (priority override for partial extractions)
-    4. Maps LLM output to domain models
+    3. Extracts and logs token usage / cost
+    4. Applies post-processing rules (priority override for partial extractions)
+    5. Maps LLM output to domain models
 
     Args:
         client: Configured Gemini client instance.
         content: Extracted content from Phase 3.
 
     Returns:
-        Complete NotionPage with all properties and body sections.
+        Tuple of (NotionPage, cost_usd) where cost_usd is the Gemini API cost.
 
     Raises:
         ValidationError: If Gemini response fails schema validation.
@@ -150,7 +154,7 @@ async def process_content(client: genai.Client, content: ExtractedContent) -> No
     user_content = build_user_content(content)
 
     try:
-        llm_result = await _call_gemini(client, system_prompt, user_content)
+        response = await _call_gemini(client, system_prompt, user_content)
     except ValidationError:
         logger.error(
             "Gemini response failed schema validation for %s",
@@ -166,8 +170,12 @@ async def process_content(client: genai.Client, content: ExtractedContent) -> No
         )
         raise
 
+    llm_result = response.parsed
+    usage = extract_usage(response)
+    log_usage(content.url, usage)
+
     # Post-processing: override priority for partial/metadata-only extractions (LLM-09)
     if content.extraction_status in (ExtractionStatus.PARTIAL, ExtractionStatus.METADATA_ONLY):
         llm_result.priority = Priority.LOW
 
-    return build_notion_page(llm_result, content)
+    return build_notion_page(llm_result, content), usage.cost_usd
