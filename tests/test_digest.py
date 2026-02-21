@@ -204,3 +204,63 @@ async def test_check_daily_cost_over_threshold():
     assert call_kwargs["channel"] == "U12345"
     assert "$7.00" in call_kwargs["text"]
     assert "exceeds $5.00" in call_kwargs["text"]
+
+
+@pytest.mark.asyncio
+async def test_send_weekly_digest_notion_error():
+    """send_weekly_digest returns structured error when Notion query fails."""
+    with (
+        patch("knowledge_hub.digest.query_recent_entries", side_effect=Exception("Notion API auth failed")),
+        patch("knowledge_hub.digest.get_slack_client") as mock_get_slack,
+        patch("knowledge_hub.digest.get_settings") as mock_settings,
+        patch("knowledge_hub.digest.reset_weekly_cost") as mock_reset,
+    ):
+        mock_settings.return_value.allowed_user_id = "U12345"
+        result = await send_weekly_digest()
+
+    assert result["status"] == "error"
+    assert "Notion" in result["error"]
+    mock_get_slack.assert_not_called()
+    mock_reset.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_send_weekly_digest_slack_error():
+    """send_weekly_digest returns structured error when Slack send fails."""
+    mock_slack = AsyncMock()
+    mock_slack.chat_postMessage.side_effect = Exception("Slack token invalid")
+    mock_settings = MagicMock()
+    mock_settings.allowed_user_id = "U12345"
+
+    with (
+        patch("knowledge_hub.digest.query_recent_entries", return_value=[_make_notion_page()]),
+        patch("knowledge_hub.digest.get_slack_client", return_value=mock_slack),
+        patch("knowledge_hub.digest.get_settings", return_value=mock_settings),
+        patch("knowledge_hub.digest.get_weekly_cost", return_value=0.005),
+        patch("knowledge_hub.digest.reset_weekly_cost") as mock_reset,
+    ):
+        result = await send_weekly_digest()
+
+    assert result["status"] == "error"
+    assert "Slack" in result["error"]
+    assert "entries" in result
+    mock_reset.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_check_daily_cost_slack_error():
+    """check_daily_cost returns structured error when Slack alert send fails."""
+    mock_slack = AsyncMock()
+    mock_slack.chat_postMessage.side_effect = Exception("Slack error")
+    mock_settings = MagicMock()
+    mock_settings.allowed_user_id = "U12345"
+
+    with (
+        patch("knowledge_hub.digest.get_daily_cost", return_value=7.0),
+        patch("knowledge_hub.digest.get_slack_client", return_value=mock_slack),
+        patch("knowledge_hub.digest.get_settings", return_value=mock_settings),
+    ):
+        result = await check_daily_cost()
+
+    assert result["status"] == "error"
+    assert result["cost"] == 7.0

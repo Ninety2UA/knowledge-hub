@@ -1,6 +1,6 @@
 """Tests for FastAPI app endpoints including scheduler authentication."""
 
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
@@ -73,3 +73,22 @@ def test_cost_check_endpoint_with_valid_auth(client: TestClient):
     assert response.status_code == 200
     assert response.json() == {"status": "ok", "cost": 1.5}
     mock_cost.assert_called_once()
+
+
+def test_digest_endpoint_internal_error(client: TestClient):
+    """POST /digest returns 200 with error status (not 500) when digest raises."""
+    with (
+        patch("knowledge_hub.app.get_settings") as mock_settings,
+        patch("knowledge_hub.app.send_weekly_digest", new_callable=AsyncMock) as mock_digest,
+    ):
+        mock_settings.return_value.scheduler_secret = "test-secret"
+        mock_digest.side_effect = Exception("unexpected")
+        response = client.post(
+            "/digest",
+            headers={"X-Scheduler-Secret": "test-secret"},
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "error"
+    assert "unexpected" in body["error"]
