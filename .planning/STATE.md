@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 4 complete -- Phase 5: Notion Writing next
+**Current focus:** Phase 5 in progress -- Notion Output building blocks done, page creation service next
 
 ## Current Position
 
-Phase: 4 of 7 (LLM Processing) -- COMPLETE
-Plan: 2 of 2 in current phase (all done)
-Status: Phase 4 complete -- ready for Phase 5
-Last activity: 2026-02-20 -- Completed 04-02-PLAN.md (LLM processor + tests)
+Phase: 5 of 7 (Notion Output)
+Plan: 1 of 2 in current phase (05-01 complete)
+Status: Plan 05-01 complete -- ready for 05-02
+Last activity: 2026-02-21 -- Completed 05-01-PLAN.md (Notion building blocks)
 
-Progress: [██████░░░░] 57%
+Progress: [███████░░░] 64%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 3.1min
-- Total execution time: 25min
+- Total execution time: 28min
 
 **By Phase:**
 
@@ -35,9 +35,10 @@ Progress: [██████░░░░] 57%
 | Phase 03 P02 | 4min | 2 tasks | 10 files |
 | Phase 04 P01 | 3min | 2 tasks | 5 files |
 | Phase 04 P02 | 3min | 2 tasks | 6 files |
+| Phase 05 P01 | 3min | 2 tasks | 9 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 4min, 4min, 3min, 3min
+- Last 5 plans: 4min, 4min, 3min, 3min, 3min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -76,6 +77,9 @@ Recent decisions affecting current work:
 - [Phase 04]: GEMINI_MODEL as constant not config for preview model management
 - [Phase 04]: ValidationError from Gemini response logged and re-raised for caller to handle
 - [Phase 04]: Priority override applied to LLMResponse before build_notion_page to keep mapping pure
+- [Phase 05]: Manual utm_* stripping before url_normalize -- filter_params=True removes ALL params
+- [Phase 05]: Duplicated _split_rich_text in properties.py and blocks.py for module self-containment
+- [Phase 05]: Bold via Notion rich_text annotations, not markdown syntax (renders as literal asterisks)
 
 ### Pending Todos
 
@@ -91,6 +95,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-20
-Stopped at: Completed 04-02-PLAN.md (LLM processor + tests) -- Phase 4 complete
-Resume file: .planning/phases/04-llm-processing/04-02-SUMMARY.md
+Last session: 2026-02-21
+Stopped at: Completed 05-01-PLAN.md (Notion building blocks)
+Resume file: .planning/phases/05-notion-output/05-01-SUMMARY.md

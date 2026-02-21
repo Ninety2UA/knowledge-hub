@@ -44,10 +44,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Notion Output
 
-- [ ] **NOTION-01**: System creates Notion page with all 10 database properties populated
-- [ ] **NOTION-02**: System sets status to "New" on page creation
-- [ ] **NOTION-03**: System detects and skips duplicate URLs by querying Notion DB before creating
-- [ ] **NOTION-04**: System manages tag schema (checks existing options, adds genuinely new tags)
+- [x] **NOTION-01**: System creates Notion page with all 10 database properties populated
+- [x] **NOTION-02**: System sets status to "New" on page creation
+- [x] **NOTION-03**: System detects and skips duplicate URLs by querying Notion DB before creating
+- [x] **NOTION-04**: System manages tag schema (checks existing options, adds genuinely new tags)
 
 ### Notifications
 
@@ -130,10 +130,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LLM-08 | Phase 4 | Complete |
 | LLM-09 | Phase 4 | Complete |
 | LLM-10 | Phase 4 | Complete |
-| NOTION-01 | Phase 5 | Pending |
-| NOTION-02 | Phase 5 | Pending |
-| NOTION-03 | Phase 5 | Pending |
-| NOTION-04 | Phase 5 | Pending |
+| NOTION-01 | Phase 5 | Complete |
+| NOTION-02 | Phase 5 | Complete |
+| NOTION-03 | Phase 5 | Complete |
+| NOTION-04 | Phase 5 | Complete |
 | NOTIFY-01 | Phase 6 | Pending |
 | NOTIFY-02 | Phase 6 | Pending |
 | NOTIFY-03 | Phase 6 | Pending |
