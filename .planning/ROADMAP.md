@@ -110,11 +110,11 @@ Plans:
   2. If processing fails at any stage, the user receives a Slack thread reply with specific error details (not a generic failure message)
   3. If a duplicate URL is detected, the user receives a Slack thread reply with a link to the existing Notion entry
   4. The original Slack message receives a reaction emoji (checkmark on success, X on failure)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
+- [ ] 06-01-PLAN.md -- Slack client singleton + notifier module + pipeline wiring in handlers.py + user_note fix
+- [ ] 06-02-PLAN.md -- TDD test suite for client, notifier, pipeline orchestration, and user_note propagation
 
 ### Phase 7: Cloud Run Deployment
 **Goal**: The pipeline runs in production on Cloud Run with proper secrets, logging, and operational configuration
@@ -144,5 +144,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Content Extraction | 0/? | Complete    | 2026-02-20 |
 | 4. LLM Processing | 0/? | Complete    | 2026-02-20 |
 | 5. Notion Output | 0/? | Complete    | 2026-02-21 |
-| 6. Pipeline Integration & Notifications | 0/? | Not started | - |
+| 6. Pipeline Integration & Notifications | 0/2 | Not started | - |
 | 7. Cloud Run Deployment | 0/? | Not started | - |
