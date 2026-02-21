@@ -94,12 +94,12 @@ Plans:
   1. A Notion page is created with all 10 database properties correctly populated (Title, Category, Content Type, Source, Author/Creator, Date Added, Status=New, Priority, Tags, Summary)
   2. The page body contains all 4 sections rendered as properly formatted Notion blocks (headings, paragraphs, numbered lists)
   3. Duplicate URLs are detected by querying the Notion database before creation -- duplicates are skipped, not created
-  4. New tags suggested by the LLM are added to the database schema before being used on a page
-**Plans**: TBD
+  4. Tags are validated against the Notion database schema -- unknown tags are silently dropped, not added
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md -- Notion client, models, URL normalization, duplicate detection, tag cache, property builder, block builder
+- [ ] 05-02-PLAN.md -- Page creation service orchestrator + comprehensive test suite
 
 ### Phase 6: Pipeline Integration & Notifications
 **Goal**: The full pipeline works end-to-end with Slack thread replies confirming every outcome to the user
