@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 5 complete -- Notion Output with page creation service and 38 tests. Ready for Phase 6.
+**Current focus:** Phase 6 in progress -- Pipeline Integration with Slack notifications and full pipeline wiring.
 
 ## Current Position
 
-Phase: 5 of 7 (Notion Output) -- COMPLETE
-Plan: 2 of 2 in current phase (05-02 complete)
-Status: Phase 5 complete -- ready for Phase 6
-Last activity: 2026-02-21 -- Completed 05-02-PLAN.md (Page creation service + test suite)
+Phase: 6 of 7 (Pipeline Integration)
+Plan: 1 of 2 in current phase (06-01 complete)
+Status: Phase 6 plan 1 complete -- ready for 06-02
+Last activity: 2026-02-21 -- Completed 06-01-PLAN.md (Pipeline wiring + Slack notifications)
 
-Progress: [████████░░] 71%
+Progress: [████████░░] 79%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 11
 - Average duration: 3.1min
-- Total execution time: 31min
+- Total execution time: 34min
 
 **By Phase:**
 
@@ -37,6 +37,7 @@ Progress: [████████░░] 71%
 | Phase 04 P02 | 3min | 2 tasks | 6 files |
 | Phase 05 P01 | 3min | 2 tasks | 9 files |
 | Phase 05 P02 | 3min | 2 tasks | 8 files |
+| Phase 06 P01 | 3min | 2 tasks | 7 files |
 
 **Recent Trend:**
 - Last 5 plans: 3min, 3min, 3min, 3min, 3min
@@ -82,6 +83,9 @@ Recent decisions affecting current work:
 - [Phase 05]: Duplicated _split_rich_text in properties.py and blocks.py for module self-containment
 - [Phase 05]: Bold via Notion rich_text annotations, not markdown syntax (renders as literal asterisks)
 - [Phase 05]: url_normalize preserves protocol and trailing slashes (RFC normalization only) -- tests match actual behavior
+- [Phase 06]: Fire-and-forget notifications: all 4 notifier functions catch SlackApiError and log, never raise
+- [Phase 06]: Stage classification via exception module path -- avoids coupling to specific exception types
+- [Phase 06]: Duplicates treated as non-failures -- no X reaction for duplicate-only batches
 
 ### Pending Todos
 
@@ -98,5 +102,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 05-02-PLAN.md (Page creation service + test suite)
-Resume file: .planning/phases/05-notion-output/05-02-SUMMARY.md
+Stopped at: Completed 06-01-PLAN.md (Pipeline wiring + Slack notifications)
+Resume file: .planning/phases/06-pipeline-integration/06-01-SUMMARY.md

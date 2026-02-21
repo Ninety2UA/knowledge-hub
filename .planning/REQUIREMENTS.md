@@ -51,10 +51,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Notifications
 
-- [ ] **NOTIFY-01**: System replies in Slack thread with Notion page link on successful processing
-- [ ] **NOTIFY-02**: System replies in Slack thread with error details if processing fails
-- [ ] **NOTIFY-03**: System replies in Slack thread if duplicate URL detected (includes link to existing entry)
-- [ ] **NOTIFY-04**: System adds reaction emoji to original Slack message (checkmark on success, X on failure)
+- [x] **NOTIFY-01**: System replies in Slack thread with Notion page link on successful processing
+- [x] **NOTIFY-02**: System replies in Slack thread with error details if processing fails
+- [x] **NOTIFY-03**: System replies in Slack thread if duplicate URL detected (includes link to existing entry)
+- [x] **NOTIFY-04**: System adds reaction emoji to original Slack message (checkmark on success, X on failure)
 
 ### Deployment & Operations
 
@@ -134,10 +134,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NOTION-02 | Phase 5 | Complete |
 | NOTION-03 | Phase 5 | Complete |
 | NOTION-04 | Phase 5 | Complete |
-| NOTIFY-01 | Phase 6 | Pending |
-| NOTIFY-02 | Phase 6 | Pending |
-| NOTIFY-03 | Phase 6 | Pending |
-| NOTIFY-04 | Phase 6 | Pending |
+| NOTIFY-01 | Phase 6 | Complete |
+| NOTIFY-02 | Phase 6 | Complete |
+| NOTIFY-03 | Phase 6 | Complete |
+| NOTIFY-04 | Phase 6 | Complete |
 | DEPLOY-01 | Phase 7 | Pending |
 | DEPLOY-02 | Phase 7 | Pending |
 | DEPLOY-03 | Phase 7 | Pending |
