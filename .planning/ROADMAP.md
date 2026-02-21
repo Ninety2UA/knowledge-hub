@@ -129,7 +129,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 07-01-PLAN.md -- Structured JSON logging + deploy script + Dockerfile verification
+- [x] 07-01-PLAN.md -- Structured JSON logging + deploy script + Dockerfile verification
 - [ ] 07-02-PLAN.md -- Cost tracking module + pipeline integration + tests
 - [ ] 07-03-PLAN.md -- Weekly digest + daily cost alert + app.py wiring + tests
 

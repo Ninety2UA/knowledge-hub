@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 6 complete -- Pipeline Integration with Slack notifications, full pipeline wiring, and comprehensive test suite.
+**Current focus:** Phase 7 in progress -- Cloud Run Deployment with secrets management, structured logging, and operational tooling.
 
 ## Current Position
 
-Phase: 6 of 7 (Pipeline Integration) -- COMPLETE
-Plan: 2 of 2 in current phase (06-02 complete)
-Status: Phase 6 complete -- ready for Phase 7
-Last activity: 2026-02-21 -- Completed 06-02-PLAN.md (Pipeline integration tests)
+Phase: 7 of 7 (Cloud Run Deployment)
+Plan: 1 of 3 in current phase (07-01 complete)
+Status: Executing Phase 7 -- 07-01 complete, 07-02 next
+Last activity: 2026-02-21 -- Completed 07-01-PLAN.md (Structured JSON logging + deploy script)
 
-Progress: [█████████░] 86%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 3.1min
-- Total execution time: 37min
+- Total plans completed: 13
+- Average duration: 3.0min
+- Total execution time: 39min
 
 **By Phase:**
 
@@ -39,9 +39,10 @@ Progress: [█████████░] 86%
 | Phase 05 P02 | 3min | 2 tasks | 8 files |
 | Phase 06 P01 | 3min | 2 tasks | 7 files |
 | Phase 06 P02 | 3min | 2 tasks | 4 files |
+| Phase 07 P01 | 2min | 2 tasks | 4 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 3min, 3min, 3min, 3min
+- Last 5 plans: 3min, 3min, 3min, 3min, 2min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -89,6 +90,10 @@ Recent decisions affecting current work:
 - [Phase 06]: Duplicates treated as non-failures -- no X reaction for duplicate-only batches
 - [Phase 06]: MagicMock for SlackApiError response -- avoids constructing real SlackResponse objects
 - [Phase 06]: capture_process side_effect pattern to verify user_note propagation through pipeline
+- [Phase 07]: python-json-logger v4.0.0 (uv resolved from >=3.2.1) -- v4 API backward-compatible with dictConfig
+- [Phase 07]: stdout handler (not stderr) to prevent Cloud Run severity override
+- [Phase 07]: Source-based deploy (--source .) avoids needing Docker locally
+- [Phase 07]: Cloud Scheduler commands documented as comments in deploy.sh (require service URL)
 
 ### Pending Todos
 
@@ -98,12 +103,12 @@ None yet.
 
 - [Research]: Gemini 3 Flash Preview structured output API -- google-genai v1.64.0 installed and imports verified (Phase 4 Plan 01)
 - [Research]: youtube-transcript-api verified working (v1.2.4 installed) -- instance fetch() method confirmed
-- [Research]: Cloud Run "always allocated" flag name needs verification before Phase 7
+- [Research]: Cloud Run "always allocated" flag is --no-cpu-throttling (NOT --cpu-always-allocated, which is deprecated) -- RESOLVED in 07-01
 - [Research]: All package versions from training data -- must verify against PyPI before writing requirements.txt
 - [Phase 01]: Docker not installed on dev machine -- Dockerfile created but build/run verification deferred to Phase 7
 
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 06-02-PLAN.md (Pipeline integration tests)
-Resume file: .planning/phases/06-pipeline-integration/06-02-SUMMARY.md
+Stopped at: Completed 07-01-PLAN.md (Structured JSON logging + deploy script)
+Resume file: .planning/phases/07-cloud-run-deployment/07-01-SUMMARY.md

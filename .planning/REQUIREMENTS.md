@@ -58,11 +58,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Deployment & Operations
 
-- [ ] **DEPLOY-01**: System runs as Docker container deployable to Google Cloud Run
-- [ ] **DEPLOY-02**: All API keys stored in Google Secret Manager (never in code or env files)
-- [ ] **DEPLOY-03**: System emits structured JSON logs for Cloud Run logging
-- [ ] **DEPLOY-04**: System verifies Slack request signatures on every incoming webhook
-- [ ] **DEPLOY-05**: Cloud Run configured with `--min-instances=1` to prevent cold start timeouts
+- [x] **DEPLOY-01**: System runs as Docker container deployable to Google Cloud Run
+- [x] **DEPLOY-02**: All API keys stored in Google Secret Manager (never in code or env files)
+- [x] **DEPLOY-03**: System emits structured JSON logs for Cloud Run logging
+- [x] **DEPLOY-04**: System verifies Slack request signatures on every incoming webhook
+- [x] **DEPLOY-05**: Cloud Run configured with `--min-instances=1` to prevent cold start timeouts
 - [ ] **DEPLOY-06**: System sends weekly Slack digest summarizing all entries processed that week
 - [ ] **DEPLOY-07**: System logs Gemini token usage and calculates cost per entry
 
@@ -138,11 +138,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NOTIFY-02 | Phase 6 | Complete |
 | NOTIFY-03 | Phase 6 | Complete |
 | NOTIFY-04 | Phase 6 | Complete |
-| DEPLOY-01 | Phase 7 | Pending |
-| DEPLOY-02 | Phase 7 | Pending |
-| DEPLOY-03 | Phase 7 | Pending |
-| DEPLOY-04 | Phase 7 | Pending |
-| DEPLOY-05 | Phase 7 | Pending |
+| DEPLOY-01 | Phase 7 | Complete |
+| DEPLOY-02 | Phase 7 | Complete |
+| DEPLOY-03 | Phase 7 | Complete |
+| DEPLOY-04 | Phase 7 | Complete |
+| DEPLOY-05 | Phase 7 | Complete |
 | DEPLOY-06 | Phase 7 | Pending |
 | DEPLOY-07 | Phase 7 | Pending |
 
