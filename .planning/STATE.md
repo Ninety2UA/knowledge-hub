@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 5 in progress -- Notion Output building blocks done, page creation service next
+**Current focus:** Phase 5 complete -- Notion Output with page creation service and 38 tests. Ready for Phase 6.
 
 ## Current Position
 
-Phase: 5 of 7 (Notion Output)
-Plan: 1 of 2 in current phase (05-01 complete)
-Status: Plan 05-01 complete -- ready for 05-02
-Last activity: 2026-02-21 -- Completed 05-01-PLAN.md (Notion building blocks)
+Phase: 5 of 7 (Notion Output) -- COMPLETE
+Plan: 2 of 2 in current phase (05-02 complete)
+Status: Phase 5 complete -- ready for Phase 6
+Last activity: 2026-02-21 -- Completed 05-02-PLAN.md (Page creation service + test suite)
 
-Progress: [███████░░░] 64%
+Progress: [████████░░] 71%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 10
 - Average duration: 3.1min
-- Total execution time: 28min
+- Total execution time: 31min
 
 **By Phase:**
 
@@ -36,9 +36,10 @@ Progress: [███████░░░] 64%
 | Phase 04 P01 | 3min | 2 tasks | 5 files |
 | Phase 04 P02 | 3min | 2 tasks | 6 files |
 | Phase 05 P01 | 3min | 2 tasks | 9 files |
+| Phase 05 P02 | 3min | 2 tasks | 8 files |
 
 **Recent Trend:**
-- Last 5 plans: 4min, 4min, 3min, 3min, 3min
+- Last 5 plans: 3min, 3min, 3min, 3min, 3min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -80,6 +81,7 @@ Recent decisions affecting current work:
 - [Phase 05]: Manual utm_* stripping before url_normalize -- filter_params=True removes ALL params
 - [Phase 05]: Duplicated _split_rich_text in properties.py and blocks.py for module self-containment
 - [Phase 05]: Bold via Notion rich_text annotations, not markdown syntax (renders as literal asterisks)
+- [Phase 05]: url_normalize preserves protocol and trailing slashes (RFC normalization only) -- tests match actual behavior
 
 ### Pending Todos
 
@@ -96,5 +98,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 05-01-PLAN.md (Notion building blocks)
-Resume file: .planning/phases/05-notion-output/05-01-SUMMARY.md
+Stopped at: Completed 05-02-PLAN.md (Page creation service + test suite)
+Resume file: .planning/phases/05-notion-output/05-02-SUMMARY.md
