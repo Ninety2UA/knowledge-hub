@@ -132,7 +132,7 @@ Plans:
 - [x] 07-01-PLAN.md -- Structured JSON logging + deploy script + Dockerfile verification
 - [x] 07-02-PLAN.md -- Cost tracking module + pipeline integration + tests
 - [x] 07-03-PLAN.md -- Weekly digest + daily cost alert + app.py wiring + tests
-- [ ] 07-04-PLAN.md -- Gap closure: error handling for /digest and /cost-check endpoints
+- [x] 07-04-PLAN.md -- Gap closure: error handling for /digest and /cost-check endpoints
 
 ## Progress
 
@@ -147,4 +147,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 4. LLM Processing | 0/? | Complete    | 2026-02-20 |
 | 5. Notion Output | 0/? | Complete    | 2026-02-21 |
 | 6. Pipeline Integration & Notifications | 0/2 | Complete    | 2026-02-21 |
-| 7. Cloud Run Deployment | 3/4 | Gap Closure | 2026-02-21 |
+| 7. Cloud Run Deployment | 4/4 | Complete    | 2026-02-21 |

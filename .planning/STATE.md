@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Every link shared in Slack becomes a structured, searchable, actionable Notion entry -- automatically, reliably, within 60 seconds.
-**Current focus:** Phase 7 in progress -- Cloud Run Deployment with token usage tracking, cost logging, and operational tooling.
+**Current focus:** Phase 7 complete -- Cloud Run Deployment with error handling gap closure.
 
 ## Current Position
 
 Phase: 7 of 7 (Cloud Run Deployment)
-Plan: 3 of 3 in current phase (07-03 complete -- PHASE COMPLETE)
-Status: Phase 7 complete -- all plans executed, ready for deployment
-Last activity: 2026-02-21 -- Completed 07-03-PLAN.md (Weekly digest and cost alerts)
+Plan: 4 of 4 in current phase (07-04 complete -- PHASE COMPLETE)
+Status: Phase 7 complete -- all plans executed including gap closure, ready for deployment
+Last activity: 2026-02-21 -- Completed 07-04-PLAN.md (Digest error handling gap closure)
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
+- Total plans completed: 16
 - Average duration: 3.1min
-- Total execution time: 47min
+- Total execution time: 49min
 
 **By Phase:**
 
@@ -42,9 +42,10 @@ Progress: [██████████] 100%
 | Phase 07 P01 | 2min | 2 tasks | 4 files |
 | Phase 07 P02 | 5min | 2 tasks | 8 files |
 | Phase 07 P03 | 3min | 2 tasks | 7 files |
+| Phase 07 P04 | 2min | 2 tasks | 4 files |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 3min, 2min, 5min, 3min
+- Last 5 plans: 3min, 2min, 5min, 3min, 2min
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -101,6 +102,8 @@ Recent decisions affecting current work:
 - [Phase 07]: In-memory cost accumulators (not Cloud Logging queries) -- pragmatic for --min-instances=1 personal tool
 - [Phase 07]: Scheduler secret header auth (X-Scheduler-Secret) for scheduled endpoint protection
 - [Phase 07]: Weekly cost reset after digest send; daily cost not reset by cost-check
+- [Phase 07]: reset_weekly_cost only called after successful Slack send (not on failure path)
+- [Phase 07]: Endpoints return 200 with error status dict instead of HTTP error codes for operational errors (Cloud Scheduler retries non-2xx)
 
 ### Pending Todos
 
@@ -117,5 +120,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 07-03-PLAN.md (Weekly digest and cost alerts) -- Phase 7 COMPLETE, all phases done
-Resume file: .planning/phases/07-cloud-run-deployment/07-03-SUMMARY.md
+Stopped at: Completed 07-04-PLAN.md (Digest error handling gap closure) -- Phase 7 COMPLETE, all phases done
+Resume file: .planning/phases/07-cloud-run-deployment/07-04-SUMMARY.md
