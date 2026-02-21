@@ -59,6 +59,27 @@ async def test_notify_success_sends_thread_reply(mock_client: AsyncMock):
     assert "My Page" in call_kwargs["text"]
 
 
+async def test_notify_success_with_cost(mock_client: AsyncMock):
+    """When cost_usd is provided, message includes cost formatted to 3 decimal places."""
+    result = PageResult(page_id="abc123", page_url="https://notion.so/abc123", title="My Page")
+
+    await notify_success(CHANNEL, TS, result, cost_usd=0.003)
+
+    text = mock_client.chat_postMessage.call_args.kwargs["text"]
+    assert "(Cost: $0.003)" in text
+    assert "https://notion.so/abc123" in text
+
+
+async def test_notify_success_without_cost(mock_client: AsyncMock):
+    """When cost_usd is not provided (None), message does NOT include cost."""
+    result = PageResult(page_id="abc123", page_url="https://notion.so/abc123", title="My Page")
+
+    await notify_success(CHANNEL, TS, result)
+
+    text = mock_client.chat_postMessage.call_args.kwargs["text"]
+    assert "Cost:" not in text
+
+
 async def test_notify_success_swallows_slack_error(mock_client: AsyncMock):
     """SlackApiError from chat_postMessage does not propagate."""
     mock_client.chat_postMessage.side_effect = _make_slack_api_error("not_in_channel")

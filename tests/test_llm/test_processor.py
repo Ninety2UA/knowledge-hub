@@ -1,6 +1,6 @@
 """Processor tests with mocked Gemini client."""
 
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
@@ -66,21 +66,38 @@ def _make_content(**kwargs) -> ExtractedContent:
     return ExtractedContent(**defaults)
 
 
+def _make_mock_gemini_response(
+    llm_response: LLMResponse,
+    prompt_tokens: int = 100,
+    completion_tokens: int = 50,
+) -> MagicMock:
+    """Build a mock Gemini GenerateContentResponse with parsed result and usage metadata."""
+    metadata = MagicMock()
+    metadata.prompt_token_count = prompt_tokens
+    metadata.candidates_token_count = completion_tokens
+
+    response = MagicMock()
+    response.parsed = llm_response
+    response.usage_metadata = metadata
+    return response
+
+
 # --- process_content tests ---
 
 
 @pytest.mark.asyncio
 async def test_process_content_returns_notion_page():
     """Mock _call_gemini, verify NotionPage has correct entry fields."""
-    mock_response = _make_mock_llm_response()
+    llm_response = _make_mock_llm_response()
+    gemini_response = _make_mock_gemini_response(llm_response)
     content = _make_content()
 
     with patch(
         "knowledge_hub.llm.processor._call_gemini",
         new_callable=AsyncMock,
-        return_value=mock_response,
+        return_value=gemini_response,
     ):
-        result = await process_content(AsyncMock(), content)
+        result, cost_usd = await process_content(AsyncMock(), content)
 
     assert isinstance(result, NotionPage)
     assert result.entry.title == "Understanding RAG Pipelines"
@@ -91,17 +108,36 @@ async def test_process_content_returns_notion_page():
 
 
 @pytest.mark.asyncio
-async def test_process_content_maps_key_learnings():
-    """Verify LLMKeyLearning objects are mapped to KeyLearning in NotionPage."""
-    mock_response = _make_mock_llm_response()
+async def test_process_content_returns_cost():
+    """process_content returns cost_usd as the second element of the tuple."""
+    llm_response = _make_mock_llm_response()
+    gemini_response = _make_mock_gemini_response(llm_response, prompt_tokens=200, completion_tokens=100)
     content = _make_content()
 
     with patch(
         "knowledge_hub.llm.processor._call_gemini",
         new_callable=AsyncMock,
-        return_value=mock_response,
+        return_value=gemini_response,
     ):
-        result = await process_content(AsyncMock(), content)
+        _, cost_usd = await process_content(AsyncMock(), content)
+
+    # (200 * 0.50/1M) + (100 * 3.00/1M) = 0.000100 + 0.000300 = 0.000400
+    assert abs(cost_usd - 0.000400) < 1e-10
+
+
+@pytest.mark.asyncio
+async def test_process_content_maps_key_learnings():
+    """Verify LLMKeyLearning objects are mapped to KeyLearning in NotionPage."""
+    llm_response = _make_mock_llm_response()
+    gemini_response = _make_mock_gemini_response(llm_response)
+    content = _make_content()
+
+    with patch(
+        "knowledge_hub.llm.processor._call_gemini",
+        new_callable=AsyncMock,
+        return_value=gemini_response,
+    ):
+        result, _ = await process_content(AsyncMock(), content)
 
     assert len(result.key_learnings) == 3
     assert result.key_learnings[0].what == "Chunk overlap improves context"
@@ -112,17 +148,18 @@ async def test_process_content_maps_key_learnings():
 @pytest.mark.asyncio
 async def test_process_content_partial_extraction_overrides_priority():
     """Content with ExtractionStatus.PARTIAL gets Priority.LOW."""
-    mock_response = _make_mock_llm_response()
-    assert mock_response.priority == Priority.HIGH  # LLM assigns HIGH
+    llm_response = _make_mock_llm_response()
+    assert llm_response.priority == Priority.HIGH  # LLM assigns HIGH
+    gemini_response = _make_mock_gemini_response(llm_response)
 
     content = _make_content(extraction_status=ExtractionStatus.PARTIAL)
 
     with patch(
         "knowledge_hub.llm.processor._call_gemini",
         new_callable=AsyncMock,
-        return_value=mock_response,
+        return_value=gemini_response,
     ):
-        result = await process_content(AsyncMock(), content)
+        result, _ = await process_content(AsyncMock(), content)
 
     assert result.entry.priority == Priority.LOW
 
@@ -130,15 +167,16 @@ async def test_process_content_partial_extraction_overrides_priority():
 @pytest.mark.asyncio
 async def test_process_content_metadata_only_overrides_priority():
     """Content with ExtractionStatus.METADATA_ONLY gets Priority.LOW."""
-    mock_response = _make_mock_llm_response()
+    llm_response = _make_mock_llm_response()
+    gemini_response = _make_mock_gemini_response(llm_response)
     content = _make_content(extraction_status=ExtractionStatus.METADATA_ONLY)
 
     with patch(
         "knowledge_hub.llm.processor._call_gemini",
         new_callable=AsyncMock,
-        return_value=mock_response,
+        return_value=gemini_response,
     ):
-        result = await process_content(AsyncMock(), content)
+        result, _ = await process_content(AsyncMock(), content)
 
     assert result.entry.priority == Priority.LOW
 
@@ -146,15 +184,16 @@ async def test_process_content_metadata_only_overrides_priority():
 @pytest.mark.asyncio
 async def test_process_content_full_extraction_preserves_priority():
     """Content with ExtractionStatus.FULL keeps LLM-assigned priority."""
-    mock_response = _make_mock_llm_response()
+    llm_response = _make_mock_llm_response()
+    gemini_response = _make_mock_gemini_response(llm_response)
     content = _make_content(extraction_status=ExtractionStatus.FULL)
 
     with patch(
         "knowledge_hub.llm.processor._call_gemini",
         new_callable=AsyncMock,
-        return_value=mock_response,
+        return_value=gemini_response,
     ):
-        result = await process_content(AsyncMock(), content)
+        result, _ = await process_content(AsyncMock(), content)
 
     assert result.entry.priority == Priority.HIGH
 
@@ -162,14 +201,15 @@ async def test_process_content_full_extraction_preserves_priority():
 @pytest.mark.asyncio
 async def test_process_content_uses_video_prompt():
     """Mock build_system_prompt, verify it's called with video content."""
-    mock_response = _make_mock_llm_response()
+    llm_response = _make_mock_llm_response()
+    gemini_response = _make_mock_gemini_response(llm_response)
     content = _make_content(content_type=ContentType.VIDEO, word_count=5000)
 
     with (
         patch(
             "knowledge_hub.llm.processor._call_gemini",
             new_callable=AsyncMock,
-            return_value=mock_response,
+            return_value=gemini_response,
         ),
         patch("knowledge_hub.llm.processor.build_system_prompt") as mock_prompt,
     ):

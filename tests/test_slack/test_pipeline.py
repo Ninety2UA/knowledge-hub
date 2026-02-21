@@ -81,7 +81,7 @@ async def test_single_url_success_pipeline():
     page_result = _make_page_result(url)
 
     mocks["extract_content"].return_value = content
-    mocks["process_content"].return_value = MagicMock()  # NotionPage
+    mocks["process_content"].return_value = (MagicMock(), 0.001)  # (NotionPage, cost_usd)
     mocks["create_notion_page"].return_value = page_result
 
     with (
@@ -100,7 +100,7 @@ async def test_single_url_success_pipeline():
     mocks["extract_content"].assert_called_once()
     mocks["process_content"].assert_called_once()
     mocks["create_notion_page"].assert_called_once()
-    mocks["notify_success"].assert_called_once_with(CHANNEL, TS, page_result)
+    mocks["notify_success"].assert_called_once_with(CHANNEL, TS, page_result, cost_usd=0.001)
     mocks["add_reaction"].assert_called_once_with(CHANNEL, TS, "white_check_mark")
 
 
@@ -146,7 +146,7 @@ async def test_single_url_duplicate():
     dup = _make_duplicate_result(url)
 
     mocks["extract_content"].return_value = content
-    mocks["process_content"].return_value = MagicMock()
+    mocks["process_content"].return_value = (MagicMock(), 0.001)  # (NotionPage, cost_usd)
     mocks["create_notion_page"].return_value = dup
 
     with (
@@ -207,7 +207,7 @@ async def test_single_url_notion_exception():
     content = _make_content(url)
 
     mocks["extract_content"].return_value = content
-    mocks["process_content"].return_value = MagicMock()
+    mocks["process_content"].return_value = (MagicMock(), 0.001)  # (NotionPage, cost_usd)
     mocks["create_notion_page"].side_effect = RuntimeError("Notion API failed")
 
     with (
@@ -236,7 +236,7 @@ async def test_multi_url_all_succeed():
     urls = ["https://example.com/a", "https://example.com/b"]
 
     mocks["extract_content"].side_effect = [_make_content(u) for u in urls]
-    mocks["process_content"].return_value = MagicMock()
+    mocks["process_content"].return_value = (MagicMock(), 0.001)  # (NotionPage, cost_usd)
     mocks["create_notion_page"].side_effect = [_make_page_result(u) for u in urls]
 
     with (
@@ -268,7 +268,7 @@ async def test_multi_url_partial_failure():
         _make_content(urls[0]),
         _make_content(urls[1], status=ExtractionStatus.FAILED),
     ]
-    mocks["process_content"].return_value = MagicMock()
+    mocks["process_content"].return_value = (MagicMock(), 0.001)  # (NotionPage, cost_usd)
     mocks["create_notion_page"].return_value = _make_page_result(urls[0])
 
     with (
@@ -299,7 +299,7 @@ async def test_user_note_passed_to_content():
     content = _make_content(url)
 
     mocks["extract_content"].return_value = content
-    mocks["process_content"].return_value = MagicMock()
+    mocks["process_content"].return_value = (MagicMock(), 0.001)  # (NotionPage, cost_usd)
     mocks["create_notion_page"].return_value = _make_page_result(url)
 
     captured_content = None
@@ -307,7 +307,7 @@ async def test_user_note_passed_to_content():
     async def capture_process(client, c):  # noqa: ARG001
         nonlocal captured_content
         captured_content = c
-        return MagicMock()
+        return (MagicMock(), 0.001)  # (NotionPage, cost_usd)
 
     mocks["process_content"].side_effect = capture_process
 
