@@ -36,7 +36,7 @@ async def query_recent_entries(days: int = 7) -> list[dict]:
 
     while True:
         kwargs: dict = {
-            "database_id": data_source_id,
+            "data_source_id": data_source_id,
             "filter": {
                 "property": "Date Added",
                 "date": {"on_or_after": cutoff},
@@ -45,7 +45,7 @@ async def query_recent_entries(days: int = 7) -> list[dict]:
         if start_cursor:
             kwargs["start_cursor"] = start_cursor
 
-        result = await client.databases.query(**kwargs)
+        result = await client.data_sources.query(**kwargs)
         all_entries.extend(result.get("results", []))
 
         if result.get("has_more"):
