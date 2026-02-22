@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Notion Output** - Page creation with all 10 properties, 4-section body, duplicate detection, and tag schema management (completed 2026-02-21)
 - [x] **Phase 6: Pipeline Integration & Notifications** - End-to-end orchestration wiring all services together with Slack thread replies for every outcome (completed 2026-02-21)
 - [x] **Phase 7: Cloud Run Deployment** - Production deployment with secrets management, cold start prevention, CPU allocation, and operational logging (completed 2026-02-21)
-- [ ] **Phase 8: Fix Digest Notion Query** - Fix data_source_id/database_id mismatch in digest.py that breaks weekly digest at runtime
+- [x] **Phase 8: Fix Digest Notion Query** - Fix data_source_id/database_id mismatch in digest.py that breaks weekly digest at runtime (completed 2026-02-22)
 
 ## Phase Details
 
@@ -147,7 +147,7 @@ Plans:
   3. `POST /digest` E2E flow completes without Notion API errors
 
 Plans:
-- [ ] 08-01-PLAN.md -- Fix digest Notion query + update tests
+- [x] 08-01-PLAN.md -- Fix digest Notion query + update tests
 
 ## Progress
 
@@ -163,4 +163,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 5. Notion Output | 0/? | Complete    | 2026-02-21 |
 | 6. Pipeline Integration & Notifications | 0/2 | Complete    | 2026-02-21 |
 | 7. Cloud Run Deployment | 4/4 | Complete    | 2026-02-21 |
-| 8. Fix Digest Notion Query | 0/1 | Pending    | -- |
+| 8. Fix Digest Notion Query | 1/1 | Complete    | 2026-02-22 |
