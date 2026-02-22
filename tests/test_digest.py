@@ -103,7 +103,7 @@ def test_build_weekly_digest_zero_entries():
 async def test_query_recent_entries():
     """query_recent_entries returns entries from Notion database query."""
     mock_client = AsyncMock()
-    mock_client.databases.query.return_value = {
+    mock_client.data_sources.query.return_value = {
         "results": [_make_notion_page(), _make_notion_page(title="Second")],
         "has_more": False,
     }
@@ -115,9 +115,10 @@ async def test_query_recent_entries():
         entries = await query_recent_entries(days=7)
 
     assert len(entries) == 2
-    mock_client.databases.query.assert_called_once()
-    call_kwargs = mock_client.databases.query.call_args[1]
-    assert call_kwargs["database_id"] == "ds-123"
+    mock_client.data_sources.query.assert_called_once()
+    call_kwargs = mock_client.data_sources.query.call_args[1]
+    assert call_kwargs["data_source_id"] == "ds-123"
+    assert "database_id" not in call_kwargs
     assert "on_or_after" in call_kwargs["filter"]["date"]
 
 
@@ -125,7 +126,7 @@ async def test_query_recent_entries():
 async def test_query_recent_entries_pagination():
     """query_recent_entries handles pagination across multiple pages."""
     mock_client = AsyncMock()
-    mock_client.databases.query.side_effect = [
+    mock_client.data_sources.query.side_effect = [
         {
             "results": [_make_notion_page(title="Page 1")],
             "has_more": True,
@@ -144,9 +145,9 @@ async def test_query_recent_entries_pagination():
         entries = await query_recent_entries(days=7)
 
     assert len(entries) == 2
-    assert mock_client.databases.query.call_count == 2
+    assert mock_client.data_sources.query.call_count == 2
     # Second call should include start_cursor
-    second_call_kwargs = mock_client.databases.query.call_args_list[1][1]
+    second_call_kwargs = mock_client.data_sources.query.call_args_list[1][1]
     assert second_call_kwargs["start_cursor"] == "cursor-abc"
 
 
