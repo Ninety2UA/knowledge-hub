@@ -140,6 +140,7 @@ Plans:
 **Depends on**: Phase 7
 **Requirements**: DEPLOY-06
 **Gap Closure:** Closes gaps from audit (DEPLOY-06 partial, integration wiring, POST /digest flow)
+**Plans:** 1 plan
 **Success Criteria** (what must be TRUE):
   1. `digest.py:query_recent_entries()` uses the correct Notion API pattern (matching `duplicates.py`)
   2. Tests validate the correct API endpoint and parameter names (not masked by mock string reuse)
