@@ -166,13 +166,13 @@ sequenceDiagram
 
 ### AI Processing
 - **Structured output** — Gemini 3 Flash generates title, summary, category, tags, priority, key points, key learnings, and detailed notes via JSON schema
-- **Content-aware prompts** — video, short-content, and article prompts are tailored to content type
+- **Content-aware prompts** — video, article, thread, newsletter, and short-content prompts tailored to content type
 - **Tag validation** — LLM-suggested tags are filtered against the Notion database schema; unknown tags are silently dropped
 - **Cost tracking** — per-request cost logged and accumulated for daily/weekly reporting
 
 ### Knowledge Base
 - **10-property Notion pages** — Title, URL, Source, Category, Tags, Priority, Status, Content Type, Date Added, Summary
-- **4-section page body** — Summary, Key Points (bulleted), Key Learnings (what/why/application), Detailed Notes (headings + bullets)
+- **4-section page body** — Summary, Key Points (numbered), Key Learnings (what/why/how-to-apply), Detailed Notes (headings + bullets)
 - **Duplicate detection** — normalized URL matching prevents re-processing the same content
 - **Tag schema enforcement** — only pre-approved tags from the Notion database are applied
 
@@ -191,7 +191,7 @@ sequenceDiagram
 | **Runtime** | Python 3.12 | Application language |
 | **Framework** | FastAPI | Async HTTP server, webhook handling |
 | **Server** | Uvicorn | ASGI server |
-| **LLM** | Gemini 3 Flash | Content analysis + structured output |
+| **LLM** | Gemini 3 Flash Preview | Content analysis + structured output (5-min timeout for video) |
 | **Extraction** | trafilatura | Article text extraction |
 | **Extraction** | youtube-transcript-api | YouTube transcript extraction |
 | **Extraction** | pypdf | PDF text extraction |
@@ -303,18 +303,21 @@ chmod 600 .env
 
 1. Go to [notion.so](https://notion.so) and create a new database with these properties:
 
-   | Property | Type |
-   |---|---|
-   | Title | Title (default) |
-   | URL | URL |
-   | Source | Rich text |
-   | Category | Select: `Engineering`, `AI/ML`, `Product`, `Design`, `Business`, `Science`, `Other` |
-   | Tags | Multi-select (pre-populate with relevant tags) |
-   | Priority | Select: `HIGH`, `MEDIUM`, `LOW` |
-   | Status | Select: `Unread`, `Reading`, `Completed`, `Archived` |
-   | Content Type | Select: `Article`, `Video`, `PDF`, `Newsletter`, `Paper` |
-   | Date Added | Date |
-   | Summary | Rich text |
+   | Property | Type | Notes |
+   |---|---|---|
+   | Title | Title (default) | Cleaned-up content title |
+   | Category | Select | See categories below |
+   | Content Type | Select: `Video`, `Article`, `Newsletter`, `Podcast`, `Thread`, `LinkedIn Post`, `PDF` | |
+   | Source | URL | Original link |
+   | Author/Creator | Rich text | |
+   | Date Added | Date | |
+   | Status | Select: `New`, `Reviewed`, `Applied`, `Archived` | Default: New |
+   | Priority | Select: `High`, `Medium`, `Low` | |
+   | Tags | Multi-select | Pre-populate with relevant tags |
+   | Summary | Rich text | |
+
+   **Categories** (create all 11 as Select options):
+   `AI & Machine Learning`, `Marketing & Growth`, `Ad Tech & Media`, `Product & Strategy`, `Engineering & Development`, `Data & Analytics`, `Career & Professional Development`, `Productivity & Systems`, `Design & UX`, `Business & Finance`, `Miscellaneous`
 
 2. Create a [Notion internal integration](https://www.notion.com/profile/integrations) and connect it to the database (click "..." on the database → **Connections** → add your integration)
 3. Copy the integration token to `NOTION_API_KEY`
@@ -678,6 +681,7 @@ All configuration is via environment variables (or `.env` file for local develop
 | `NOTION_DATABASE_ID` | Yes | `""` | UUID of the target Notion database |
 | `GEMINI_API_KEY` | Yes | `""` | Google AI API key for Gemini |
 | `SCHEDULER_SECRET` | Yes | `""` | Shared secret for `/digest` and `/cost-check` auth |
+| `YOUTUBE_PROXY_URL` | No | `""` | HTTPS proxy for YouTube transcript requests (bypasses cloud IP blocking) |
 | `ENVIRONMENT` | No | `development` | App environment (`development` or `production`) |
 | `LOG_LEVEL` | No | `INFO` | Python logging level |
 | `PORT` | No | `8080` | HTTP server port |
