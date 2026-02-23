@@ -101,7 +101,7 @@ def build_notion_page(llm_result: LLMResponse, content: ExtractedContent) -> Not
         category=llm_result.category,
         content_type=content.content_type,
         source=content.url,
-        author=content.author,
+        author=content.author or llm_result.author,
         date_added=datetime.now(timezone.utc),
         status=Status.NEW,
         priority=llm_result.priority,

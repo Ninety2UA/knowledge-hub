@@ -54,6 +54,10 @@ Your job is to transform raw content into structured, actionable knowledge entri
 - Concise, descriptive title (not the original article title unless it's already good)
 - Should tell a reader what they'll learn
 
+### Author
+- Extract the author or creator name from the content (byline, attribution, channel name, etc.)
+- Return null if the author cannot be identified from the content
+
 ### Summary (summary field)
 - 3-5 sentences for the database property
 - Dense and informative -- every sentence should carry weight

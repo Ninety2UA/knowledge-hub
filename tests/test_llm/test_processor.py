@@ -258,6 +258,24 @@ def test_build_notion_page_uses_extraction_content_type():
     assert page.entry.content_type == ContentType.VIDEO
 
 
+def test_build_notion_page_prefers_extraction_author():
+    """When extraction provides author, it takes priority over LLM author."""
+    llm_result = _make_mock_llm_response()
+    llm_result.author = "LLM Author"
+    content = _make_content(author="Extraction Author")
+    page = build_notion_page(llm_result, content)
+    assert page.entry.author == "Extraction Author"
+
+
+def test_build_notion_page_falls_back_to_llm_author():
+    """When extraction has no author, LLM-extracted author is used."""
+    llm_result = _make_mock_llm_response()
+    llm_result.author = "LLM Author"
+    content = _make_content(author=None)
+    page = build_notion_page(llm_result, content)
+    assert page.entry.author == "LLM Author"
+
+
 # --- _is_retryable tests ---
 
 

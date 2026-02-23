@@ -8,7 +8,7 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.129+-green.svg)](https://fastapi.tiangolo.com)
 [![Deployed on Cloud Run](https://img.shields.io/badge/Cloud%20Run-deployed-4285F4.svg)](https://cloud.google.com/run)
-[![Tests](https://img.shields.io/badge/tests-235%20passed-brightgreen.svg)](#running-tests)
+[![Tests](https://img.shields.io/badge/tests-237%20passed-brightgreen.svg)](#running-tests)
 
 Drop a link in a Slack channel, get a structured knowledge base entry in Notion — automatically. Knowledge Hub extracts content from articles, YouTube videos, and PDFs, processes it through Gemini to generate summaries, key points, and tags, then creates a fully formatted Notion page. No manual curation required.
 
@@ -383,13 +383,13 @@ Expected output:
 
 ```
 ================================ test session starts =================================
-collected 235 items
+collected 237 items
 
 tests/test_health.py ..                                                        [  0%]
 tests/test_app.py ......                                                       [  3%]
 tests/test_cost.py .....                                                       [  5%]
 ...
-================================ 235 passed in 4.52s =================================
+================================ 237 passed in 1.82s =================================
 ```
 
 Run a specific test module:
@@ -655,7 +655,7 @@ knowledge-hub/
 │       ├── notifier.py                # Fire-and-forget Slack notifications
 │       ├── urls.py                     # URL extraction + redirect resolution
 │       └── verification.py           # HMAC signature verification
-├── tests/                              # 235 tests mirroring src/ structure
+├── tests/                              # 237 tests mirroring src/ structure
 ├── docs/
 │   ├── KB-Automation-PRD.md           # Original product requirements document
 │   └── screenshots/                    # Screenshots (see Demo section)

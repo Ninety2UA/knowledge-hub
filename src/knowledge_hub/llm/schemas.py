@@ -24,6 +24,10 @@ class LLMResponse(BaseModel):
     """Schema for Gemini structured output. Used as response_schema parameter."""
 
     title: str = Field(description="Concise, descriptive title for the knowledge entry")
+    author: str | None = Field(
+        default=None,
+        description="Author or creator name extracted from the content. None if not identifiable.",
+    )
     summary: str = Field(description="3-5 sentence executive summary")
     category: Category = Field(description="Best-fit category from the 11 options")
     priority: Priority = Field(description="High/Medium/Low based on actionability")
