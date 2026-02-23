@@ -25,7 +25,7 @@ from knowledge_hub.llm.prompts import GEMINI_MODEL, build_system_prompt, build_u
 from knowledge_hub.llm.schemas import LLMResponse
 from knowledge_hub.models.content import ContentType, ExtractedContent, ExtractionStatus
 from knowledge_hub.models.knowledge import KnowledgeEntry, Priority, Status
-from knowledge_hub.models.notion import KeyLearning, NotionPage
+from knowledge_hub.models.notion import KeyLearning, NotionPage, ToolMention
 
 logger = logging.getLogger(__name__)
 
@@ -121,12 +121,18 @@ def build_notion_page(llm_result: LLMResponse, content: ExtractedContent) -> Not
         for kl in llm_result.key_learnings
     ]
 
+    tools_mentioned = [
+        ToolMention(name=t.name, url=t.url)
+        for t in llm_result.tools_mentioned
+    ]
+
     return NotionPage(
         entry=entry,
         summary_section=llm_result.summary_section,
         key_points=llm_result.key_points,
         key_learnings=key_learnings,
         detailed_notes=llm_result.detailed_notes,
+        tools_mentioned=tools_mentioned,
     )
 
 

@@ -16,6 +16,13 @@ class KeyLearning(BaseModel):
     estimated_time: str  # Time estimate to complete
 
 
+class ToolMention(BaseModel):
+    """A tool or resource mentioned in the content, with its URL."""
+
+    name: str
+    url: str
+
+
 class NotionPage(BaseModel):
     """A complete Notion page with properties and 4-section body."""
 
@@ -24,3 +31,4 @@ class NotionPage(BaseModel):
     key_points: list[str]  # 5-10 numbered statements, importance-ordered
     key_learnings: list[KeyLearning]  # 3-7 structured blocks
     detailed_notes: str  # Content-type-specific breakdown, ~2500 word cap
+    tools_mentioned: list[ToolMention] = []  # Tools referenced in the content

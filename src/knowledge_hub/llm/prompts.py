@@ -116,6 +116,13 @@ Tags must be lowercase, hyphenated.
 - Use markdown: ## for section headers, ### for subsections, - for bullet points, **bold** for emphasis
 - Cap at ~2,500 words depending on source depth
 - Capture: numbers, frameworks, tools mentioned, people referenced, companies discussed
+
+### Tools Mentioned (tools_mentioned field)
+- List ALL tools, platforms, products, services, and software mentioned or described in the content
+- Each entry needs a name and a URL to the tool's website or most relevant page
+- Include tools that are the primary subject AND tools mentioned in passing
+- Only include tools with a known, real URL — do not fabricate URLs
+- Return an empty list if no tools are identified
 """
 
 _VIDEO_ADDENDUM = """

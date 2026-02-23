@@ -154,6 +154,22 @@ def _divider_block() -> dict:
     return {"object": "block", "type": "divider", "divider": {}}
 
 
+def _tool_bookmark_block(name: str, url: str) -> dict:
+    """Create a bulleted list item with the tool name linked to its URL."""
+    return {
+        "object": "block",
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+            "rich_text": [
+                {
+                    "type": "text",
+                    "text": {"content": name, "link": {"url": url}},
+                }
+            ]
+        },
+    }
+
+
 def build_body_blocks(page: NotionPage) -> list[dict]:
     """Build the 4-section page body as a list of Notion block dicts.
 
@@ -216,5 +232,12 @@ def build_body_blocks(page: NotionPage) -> list[dict]:
             blocks.append(_bulleted_item_block(line[2:].strip()))
         else:
             blocks.append(_paragraph_block(line))
+
+    # Section 5: Tools & Resources Mentioned (only if tools were identified)
+    if page.tools_mentioned:
+        blocks.append(_divider_block())
+        blocks.append(_heading_block("Tools & Resources Mentioned"))
+        for tool in page.tools_mentioned:
+            blocks.append(_tool_bookmark_block(tool.name, tool.url))
 
     return blocks

@@ -153,14 +153,14 @@ sequenceDiagram
 - **30-second timeout + retry** — transient network errors get one automatic retry
 
 ### AI Processing
-- **Structured output** — Gemini 3 Flash generates title, summary, category, tags, priority, key points, key learnings, and detailed notes via JSON schema
+- **Structured output** — Gemini 3 Flash generates title, summary, category, tags, priority, key points, key learnings, detailed notes, and tools mentioned via JSON schema
 - **Content-aware prompts** — video, article, thread, newsletter, and short-content prompts tailored to content type
 - **Tag validation** — LLM-suggested tags are filtered against the Notion database schema; unknown tags are silently dropped
 - **Cost tracking** — per-request cost logged and accumulated for daily/weekly reporting
 
 ### Knowledge Base
 - **10-property Notion pages** — Title, URL, Source, Category, Tags, Priority, Status, Content Type, Date Added, Summary
-- **4-section page body** — Summary, Key Points (numbered), Key Learnings (what/why/how-to-apply), Detailed Notes (headings + bullets)
+- **5-section page body** — Summary, Key Points (numbered), Key Learnings (what/why/how-to-apply), Detailed Notes (headings + bullets), Tools & Resources Mentioned (linked list)
 - **Duplicate detection** — normalized URL matching prevents re-processing the same content
 - **Tag schema enforcement** — only pre-approved tags from the Notion database are applied
 
@@ -613,7 +613,7 @@ knowledge-hub/
 │   ├── models/
 │   │   ├── content.py                  # ExtractedContent, ContentType, ExtractionStatus
 │   │   ├── knowledge.py               # KnowledgeEntry, Category, Priority enums
-│   │   ├── notion.py                   # NotionPage (entry + 4 body sections)
+│   │   ├── notion.py                   # NotionPage (entry + 5 body sections)
 │   │   └── slack.py                    # SlackEvent model
 │   ├── extraction/
 │   │   ├── router.py                   # URL → content type detection

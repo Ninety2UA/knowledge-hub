@@ -20,6 +20,13 @@ class LLMKeyLearning(BaseModel):
     estimated_time: str = Field(description="Total time estimate to complete the steps")
 
 
+class LLMToolMention(BaseModel):
+    """A tool or resource mentioned/described in the content."""
+
+    name: str = Field(description="Name of the tool or resource")
+    url: str = Field(description="URL/link to the tool's website or relevant page")
+
+
 class LLMResponse(BaseModel):
     """Schema for Gemini structured output. Used as response_schema parameter."""
 
@@ -43,4 +50,8 @@ class LLMResponse(BaseModel):
     key_learnings: list[LLMKeyLearning] = Field(min_length=3, max_length=7)
     detailed_notes: str = Field(
         description="Structured breakdown, ~1500-2500 words"
+    )
+    tools_mentioned: list[LLMToolMention] = Field(
+        default_factory=list,
+        description="Tools and resources mentioned or described in the content, with their URLs",
     )
