@@ -2,9 +2,6 @@
 
 **Slack-to-Notion knowledge base automation pipeline.**
 
-<!-- Placeholder: Add a project logo or banner image -->
-<!-- ![Knowledge Hub Banner](docs/screenshots/banner.png) -->
-
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.129+-green.svg)](https://fastapi.tiangolo.com)
 [![Deployed on Cloud Run](https://img.shields.io/badge/Cloud%20Run-deployed-4285F4.svg)](https://cloud.google.com/run)
@@ -54,15 +51,6 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 Saved to Notion: How to Never Give Up — A Comprehensive Guide (Cost: $0.003)
 ```
-
-<!-- Screenshot: Slack channel showing a posted URL with a thread reply containing the Notion link -->
-![Slack Thread Reply](docs/screenshots/slack-thread-reply.png)
-
-<!-- Screenshot: The generated Notion page showing all 4 sections (Summary, Key Points, Key Learnings, Detailed Notes) -->
-![Notion Page Output](docs/screenshots/notion-page-output.png)
-
-<!-- Screenshot: The Notion database view showing multiple entries with tags, categories, and priorities -->
-![Notion Database View](docs/screenshots/notion-database-view.png)
 
 ---
 
