@@ -21,24 +21,27 @@ def _make_content(**kwargs) -> ExtractedContent:
 
 
 def test_build_system_prompt_contains_categories():
-    """Output contains all 11 Category enum values."""
+    """Output contains all 11 Category enum values and selection rules."""
     content = _make_content()
     prompt = build_system_prompt(content)
     categories = [
         "AI & Machine Learning",
-        "Marketing",
-        "Product",
-        "Growth",
-        "Analytics",
-        "Engineering",
-        "Design",
-        "Business",
-        "Career",
-        "Productivity",
-        "Other",
+        "Marketing & Growth",
+        "Ad Tech & Media",
+        "Product & Strategy",
+        "Engineering & Development",
+        "Data & Analytics",
+        "Career & Professional Development",
+        "Productivity & Systems",
+        "Design & UX",
+        "Business & Finance",
+        "Miscellaneous",
     ]
     for cat in categories:
         assert cat in prompt, f"Category '{cat}' not found in system prompt"
+    # Category selection rules from CLAUDE.md
+    assert "miscellaneous" in prompt.lower() and "catch-all" in prompt.lower()
+    assert "never create new category" in prompt.lower()
 
 
 def test_build_system_prompt_contains_seeded_tags():
@@ -78,11 +81,11 @@ def test_build_system_prompt_contains_importance_ordering():
 
 
 def test_build_system_prompt_video_addendum():
-    """Video content type triggers timestamp/duration instructions."""
+    """Video content type triggers timestamp/section-by-section instructions."""
     content = _make_content(content_type=ContentType.VIDEO, word_count=5000)
     prompt = build_system_prompt(content)
     assert "timestamp" in prompt.lower()
-    assert "duration" in prompt.lower()
+    assert "section-by-section" in prompt.lower()
 
 
 def test_build_system_prompt_short_content_addendum():
@@ -91,14 +94,15 @@ def test_build_system_prompt_short_content_addendum():
     prompt = build_system_prompt(content)
     assert "500 words" in prompt.lower() or "under 500" in prompt.lower()
     assert "proportionally shorter" in prompt.lower()
+    assert "never skip sections" in prompt.lower()
 
 
-def test_build_system_prompt_article_no_addendum():
-    """Article with 2000 words gets base prompt only (no addendums)."""
+def test_build_system_prompt_article_addendum():
+    """Article with 2000 words gets article-specific addendum."""
     content = _make_content(word_count=2000)
     prompt = build_system_prompt(content)
-    # Should NOT contain video or short content addendums
-    assert "timestamp" not in prompt.lower()
+    # Should contain article addendum but NOT video or short content
+    assert "section breakdown" in prompt.lower()
     assert "proportionally shorter" not in prompt.lower()
 
 

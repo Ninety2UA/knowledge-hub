@@ -1,9 +1,10 @@
 """Gemini client singleton with async support.
 
 Creates a cached genai.Client instance configured with the API key from
-application settings. Uses a 60-second HTTP timeout. Does NOT configure
-HttpRetryOptions -- tenacity handles retries at the application level
-to avoid double-retry behavior.
+application settings. Uses a 5-minute HTTP timeout to accommodate native
+video processing (Gemini must download and transcribe the video).
+Does NOT configure HttpRetryOptions -- tenacity handles retries at the
+application level to avoid double-retry behavior.
 """
 
 from google import genai
@@ -25,7 +26,7 @@ def get_gemini_client() -> genai.Client:
         settings = get_settings()
         _client = genai.Client(
             api_key=settings.gemini_api_key,
-            http_options=types.HttpOptions(timeout=60_000),
+            http_options=types.HttpOptions(timeout=300_000),
         )
     return _client
 

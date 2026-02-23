@@ -20,10 +20,10 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
-from knowledge_hub.cost import TokenUsage, extract_usage, log_usage
+from knowledge_hub.cost import TokenUsage, extract_usage, log_usage, merge_usage
 from knowledge_hub.llm.prompts import GEMINI_MODEL, build_system_prompt, build_user_content
 from knowledge_hub.llm.schemas import LLMResponse
-from knowledge_hub.models.content import ExtractedContent, ExtractionStatus
+from knowledge_hub.models.content import ContentType, ExtractedContent, ExtractionStatus
 from knowledge_hub.models.knowledge import KnowledgeEntry, Priority, Status
 from knowledge_hub.models.notion import KeyLearning, NotionPage
 
@@ -111,9 +111,12 @@ def build_notion_page(llm_result: LLMResponse, content: ExtractedContent) -> Not
 
     key_learnings = [
         KeyLearning(
+            title=kl.title,
             what=kl.what,
             why_it_matters=kl.why_it_matters,
             how_to_apply=kl.how_to_apply,
+            resources_needed=kl.resources_needed,
+            estimated_time=kl.estimated_time,
         )
         for kl in llm_result.key_learnings
     ]
@@ -127,17 +130,79 @@ def build_notion_page(llm_result: LLMResponse, content: ExtractedContent) -> Not
     )
 
 
+@retry(
+    retry=retry_if_exception(_is_retryable),
+    wait=wait_exponential_jitter(initial=1, max=30, jitter=2),
+    stop=stop_after_attempt(4),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+    reraise=True,
+)
+async def _transcribe_video(
+    client: genai.Client,
+    content: ExtractedContent,
+) -> tuple[str, TokenUsage]:
+    """Ask Gemini to transcribe a YouTube video, returning the transcript text.
+
+    Used when youtube-transcript-api fails (e.g., cloud IP blocking).
+    Gemini watches the video natively and produces a text transcript,
+    which is then fed into the normal analysis pipeline for structured output.
+
+    Args:
+        client: Configured Gemini client instance.
+        content: ExtractedContent with video URL and metadata.
+
+    Returns:
+        Tuple of (transcript_text, token_usage).
+    """
+    metadata_parts = []
+    if content.title:
+        metadata_parts.append(f"Title: {content.title}")
+    if content.author:
+        metadata_parts.append(f"Author: {content.author}")
+    if content.description:
+        metadata_parts.append(f"Description: {content.description}")
+
+    metadata_text = "\n".join(metadata_parts)
+    prompt_text = (
+        f"{metadata_text}\n\n---\n"
+        "Transcribe this video as accurately as possible. "
+        "Include all spoken content. Add approximate timestamps every few minutes "
+        "in [MM:SS] format. Output only the transcript text, nothing else."
+    )
+
+    response = await client.aio.models.generate_content(
+        model=GEMINI_MODEL,
+        contents=[
+            types.Part(file_data=types.FileData(file_uri=content.url)),
+            types.Part(text=prompt_text),
+        ],
+        config=types.GenerateContentConfig(
+            temperature=0.2,
+        ),
+    )
+
+    transcript = response.text or ""
+    usage = extract_usage(response)
+    logger.info(
+        "Video transcription complete (%d words, %d tokens)",
+        len(transcript.split()),
+        usage.total_tokens,
+    )
+    return transcript, usage
+
+
 async def process_content(
     client: genai.Client, content: ExtractedContent
 ) -> tuple[NotionPage, float]:
     """Transform extracted content into a structured NotionPage via Gemini.
 
     This is the main public API for the LLM processing stage. It:
-    1. Builds content-type-specific prompts
-    2. Calls Gemini with structured output + retry logic
-    3. Extracts and logs token usage / cost
-    4. Applies post-processing rules (priority override for partial extractions)
-    5. Maps LLM output to domain models
+    1. For videos without transcripts: first transcribes via Gemini, then analyzes
+    2. Builds content-type-specific prompts
+    3. Calls Gemini with structured output + retry logic
+    4. Extracts and logs token usage / cost
+    5. Applies post-processing rules (priority override for partial extractions)
+    6. Maps LLM output to domain models
 
     Args:
         client: Configured Gemini client instance.
@@ -150,6 +215,21 @@ async def process_content(
         ValidationError: If Gemini response fails schema validation.
         APIError: On non-retryable Gemini API errors.
     """
+    transcription_usage = None
+
+    # Step 1: If video has no transcript, ask Gemini to transcribe it first
+    is_gemini_video_fallback = (
+        content.content_type == ContentType.VIDEO
+        and content.extraction_method == "youtube-transcript-api-fallback"
+    )
+    if is_gemini_video_fallback and not content.transcript:
+        logger.info("Transcribing video via Gemini: %s", content.url)
+        transcript, transcription_usage = await _transcribe_video(client, content)
+        if transcript:
+            content.transcript = transcript
+            content.word_count = len(transcript.split())
+
+    # Step 2: Build prompts and call Gemini for structured analysis
     system_prompt = build_system_prompt(content)
     user_content = build_user_content(content)
 
@@ -172,10 +252,19 @@ async def process_content(
 
     llm_result = response.parsed
     usage = extract_usage(response)
+
+    # Merge transcription cost if applicable
+    if transcription_usage:
+        usage = merge_usage(transcription_usage, usage)
+
     log_usage(content.url, usage)
 
     # Post-processing: override priority for partial/metadata-only extractions (LLM-09)
-    if content.extraction_status in (ExtractionStatus.PARTIAL, ExtractionStatus.METADATA_ONLY):
+    # Skip override for Gemini video fallback (transcription provides full content)
+    if (
+        content.extraction_status in (ExtractionStatus.PARTIAL, ExtractionStatus.METADATA_ONLY)
+        and not is_gemini_video_fallback
+    ):
         llm_result.priority = Priority.LOW
 
     return build_notion_page(llm_result, content), usage.cost_usd

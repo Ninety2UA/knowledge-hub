@@ -1,7 +1,12 @@
 """YouTube transcript extraction using youtube-transcript-api."""
 
 import asyncio
+import logging
 import re
+
+import httpx
+
+logger = logging.getLogger(__name__)
 
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import (
@@ -10,7 +15,9 @@ from youtube_transcript_api._errors import (
     TranscriptsDisabled,
     VideoUnavailable,
 )
+from youtube_transcript_api.proxies import GenericProxyConfig
 
+from knowledge_hub.config import get_settings
 from knowledge_hub.models.content import ContentType, ExtractedContent, ExtractionStatus
 
 # Comprehensive regex for all YouTube URL formats
@@ -50,7 +57,12 @@ async def extract_youtube(url: str) -> ExtractedContent:
             extraction_method="youtube-transcript-api",
         )
 
-    ytt_api = YouTubeTranscriptApi()
+    # Always fetch page metadata (title, author, description)
+    title, author, description = await _fetch_youtube_metadata(url)
+
+    proxy_url = get_settings().youtube_proxy_url
+    proxy_config = GenericProxyConfig(https_url=proxy_url) if proxy_url else None
+    ytt_api = YouTubeTranscriptApi(proxy_config=proxy_config)
     try:
         # Sync call wrapped in to_thread
         transcript = await asyncio.to_thread(
@@ -62,6 +74,9 @@ async def extract_youtube(url: str) -> ExtractedContent:
         return ExtractedContent(
             url=url,
             content_type=ContentType.VIDEO,
+            title=title,
+            author=author,
+            description=description,
             transcript=text,
             source_domain="youtube.com",
             word_count=word_count,
@@ -73,6 +88,9 @@ async def extract_youtube(url: str) -> ExtractedContent:
         return ExtractedContent(
             url=url,
             content_type=ContentType.VIDEO,
+            title=title,
+            author=author,
+            description=description,
             transcript=None,
             source_domain="youtube.com",
             extraction_method="youtube-transcript-api",
@@ -86,3 +104,67 @@ async def extract_youtube(url: str) -> ExtractedContent:
             extraction_method="youtube-transcript-api",
             extraction_status=ExtractionStatus.FAILED,
         )
+    except Exception as exc:
+        # Catch-all for IP blocks, request errors, etc.
+        logger.warning("Transcript extraction failed (will use Gemini fallback): %s (%s)", url, exc)
+        return ExtractedContent(
+            url=url,
+            content_type=ContentType.VIDEO,
+            title=title,
+            author=author,
+            description=description,
+            transcript=None,
+            source_domain="youtube.com",
+            extraction_method="youtube-transcript-api-fallback",
+            extraction_status=ExtractionStatus.METADATA_ONLY,
+        )
+
+
+async def _fetch_youtube_metadata(url: str) -> tuple[str | None, str | None, str | None]:
+    """Fetch title, author, and description from YouTube page HTML.
+
+    Tries multiple selectors for each field since YouTube's HTML changes frequently.
+
+    Returns:
+        Tuple of (title, author, description). Any field may be None.
+    """
+    try:
+        async with httpx.AsyncClient(follow_redirects=True, timeout=10.0) as client:
+            resp = await client.get(url)
+            resp.raise_for_status()
+            html = resp.text
+
+        title = None
+        author = None
+        description = None
+
+        # Title: og:title is most reliable
+        m = re.search(r'<meta property="og:title" content="([^"]*)"', html)
+        if m:
+            title = m.group(1)
+
+        # Author: try multiple patterns (YouTube HTML changes frequently)
+        # JSON patterns first — unambiguously refer to the channel.
+        # itemprop="name" is last resort since first match is often the video title.
+        author_patterns = [
+            r'"ownerChannelName":"([^"]*)"',
+            r'"author":"([^"]*)"',
+            r'"channelName":"([^"]*)"',
+            r'<meta name="author" content="([^"]*)"',
+            r'<link itemprop="name" content="([^"]*)"',
+        ]
+        for pattern in author_patterns:
+            m = re.search(pattern, html)
+            if m and m.group(1):
+                author = m.group(1)
+                break
+
+        # Description: og:description
+        m = re.search(r'<meta property="og:description" content="([^"]*)"', html)
+        if m:
+            description = m.group(1)
+
+        return title, author, description
+    except Exception:
+        logger.debug("Failed to fetch YouTube page metadata for %s", url, exc_info=True)
+        return None, None, None

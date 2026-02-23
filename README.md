@@ -129,6 +129,7 @@ sequenceDiagram
             E->>E: trafilatura.bare_extraction()
         else YouTube
             E->>E: YouTubeTranscriptApi.fetch()
+            Note over E: Falls back to Gemini<br/>if transcript unavailable
         else PDF
             E->>E: pypdf.PdfReader()
         end
@@ -148,7 +149,7 @@ sequenceDiagram
         F->>S: Thread reply (success/duplicate/error)
     end
 
-    F->>S: Reaction (checkmark or X)
+    F->>S: Reaction (checkmark or X, best-effort)
 ```
 
 ---
@@ -158,6 +159,7 @@ sequenceDiagram
 ### Content Ingestion
 - **Multi-format extraction** — articles (trafilatura), YouTube videos (transcript API), and PDFs (pypdf)
 - **Smart content detection** — URL pattern matching routes to the correct extractor automatically
+- **YouTube Gemini fallback** — when transcript extraction fails (e.g., cloud IP blocking), Gemini processes the video natively via its built-in video understanding
 - **Paywall awareness** — known paywalled domains flagged; partial content still processed at lower priority
 - **Parallel URL resolution** — redirect chains resolved concurrently before extraction
 - **30-second timeout + retry** — transient network errors get one automatic retry
@@ -288,14 +290,14 @@ chmod 600 .env
 1. Go to [api.slack.com/apps](https://api.slack.com/apps) and create a new app
 2. Under **OAuth & Permissions**, add these bot token scopes:
    - `chat:write` — send messages
-   - `reactions:write` — add reactions
    - `channels:history` — read channel messages
+   - `reactions:write` — add reactions (optional — the bot works without this but won't add checkmark/X reactions)
 3. Under **Event Subscriptions**, enable events and set the request URL to your service URL + `/slack/events` (e.g., `https://your-service.run.app/slack/events`)
 4. Subscribe to the `message.channels` bot event
 5. Install the app to your workspace
 6. Copy the **Bot User OAuth Token** (`xoxb-...`) to `SLACK_BOT_TOKEN`
-7. Copy the **Signing Secret** to `SLACK_SIGNING_SECRET`
-8. Invite the bot to your target Slack channel
+7. Copy the **Signing Secret** (under **Basic Information**) to `SLACK_SIGNING_SECRET`
+8. Invite the bot to your target Slack channel — the channel **must be public** (`message.channels` does not receive events from private channels)
 
 ### 5. Set up the Notion database
 
@@ -314,7 +316,7 @@ chmod 600 .env
    | Date Added | Date |
    | Summary | Rich text |
 
-2. Create a [Notion integration](https://developers.notion.com) and connect it to the database
+2. Create a [Notion internal integration](https://www.notion.com/profile/integrations) and connect it to the database (click "..." on the database → **Connections** → add your integration)
 3. Copy the integration token to `NOTION_API_KEY`
 4. Copy the database ID from the URL (the 32-char hex string) to `NOTION_DATABASE_ID`
 
@@ -501,9 +503,11 @@ gcloud run services add-iam-policy-binding knowledge-hub \
     --role="roles/run.invoker"
 
 # Weekly digest — Monday 08:00 Amsterdam
+# Note: Cloud Scheduler may not be available in all regions.
+# Use a nearby region (e.g., europe-west3) if your Cloud Run region isn't supported.
 gcloud scheduler jobs create http weekly-digest \
     --project="$PROJECT_ID" \
-    --location=europe-west4 \
+    --location=europe-west3 \
     --schedule="0 8 * * 1" \
     --time-zone="Europe/Amsterdam" \
     --http-method=POST \
@@ -514,7 +518,7 @@ gcloud scheduler jobs create http weekly-digest \
 # Daily cost check — 23:55 Amsterdam
 gcloud scheduler jobs create http daily-cost-check \
     --project="$PROJECT_ID" \
-    --location=europe-west4 \
+    --location=europe-west3 \
     --schedule="55 23 * * *" \
     --time-zone="Europe/Amsterdam" \
     --http-method=POST \
@@ -685,8 +689,9 @@ All configuration is via environment variables (or `.env` file for local develop
 ### Slack events not arriving
 
 - Verify the request URL in Slack Event Subscriptions matches your service URL + `/slack/events`
-- Check that the bot is invited to the target channel
-- Confirm `SLACK_SIGNING_SECRET` matches the value in your Slack app settings (not the bot token)
+- **The channel must be public** — `message.channels` only fires for public channels. If your channel is private, convert it to public in Slack channel settings.
+- Check that the bot is invited to the target channel (channel settings → **Integrations** → **Add apps**)
+- Confirm `SLACK_SIGNING_SECRET` matches the value in your Slack app's **Basic Information** page (not the bot token)
 - For local development, ensure your tunnel (ngrok) is running and the URL is updated in Slack
 
 ### "Invalid scheduler secret" on `/digest` or `/cost-check`
@@ -704,7 +709,8 @@ All configuration is via environment variables (or `.env` file for local develop
 
 - The video may have transcripts disabled by the creator
 - Auto-generated captions are used as fallback; if neither exists, the extraction status will be `METADATA_ONLY`
-- Check the logs for `TranscriptsDisabled` or `NoTranscriptFound` errors
+- **Cloud IP blocking**: YouTube may block transcript requests from cloud provider IPs (including Cloud Run). When this happens, the pipeline automatically falls back to Gemini's native video understanding — the video URL is passed directly to Gemini for analysis. Quality is comparable but timestamps may be less precise.
+- Check the logs for `TranscriptsDisabled`, `NoTranscriptFound`, or `will use Gemini fallback` messages
 
 ### High Gemini costs
 

@@ -8,9 +8,12 @@ from knowledge_hub.models.knowledge import KnowledgeEntry
 class KeyLearning(BaseModel):
     """A structured learning block for the Key Learnings section."""
 
+    title: str  # Short heading for the learning
     what: str
     why_it_matters: str
     how_to_apply: list[str]  # Concrete, sequential steps
+    resources_needed: str  # Tools/resources/prerequisites
+    estimated_time: str  # Time estimate to complete
 
 
 class NotionPage(BaseModel):

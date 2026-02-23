@@ -29,9 +29,12 @@ def test_notion_page_valid():
     """Create NotionPage with valid KnowledgeEntry and all 4 sections, assert fields."""
     entry = _make_entry()
     learning = KeyLearning(
+        title="Testing Best Practices",
         what="Testing is important",
         why_it_matters="Catches bugs early",
         how_to_apply=["Write tests first", "Run tests in CI"],
+        resources_needed="pytest, CI pipeline",
+        estimated_time="30 minutes",
     )
     page = NotionPage(
         entry=entry,
@@ -50,10 +53,14 @@ def test_notion_page_valid():
 def test_key_learning_structure():
     """Create KeyLearning with what, why_it_matters, how_to_apply list, assert all fields."""
     learning = KeyLearning(
+        title="Use Pydantic for Runtime Validation",
         what="Pydantic validates data at runtime",
         why_it_matters="Catches invalid data before it reaches business logic",
         how_to_apply=["Define BaseModel subclasses", "Use type hints", "Let Pydantic raise ValidationError"],
+        resources_needed="Pydantic v2",
+        estimated_time="10-15 minutes",
     )
+    assert learning.title == "Use Pydantic for Runtime Validation"
     assert learning.what == "Pydantic validates data at runtime"
     assert learning.why_it_matters == "Catches invalid data before it reaches business logic"
     assert len(learning.how_to_apply) == 3
@@ -65,9 +72,12 @@ def test_notion_page_key_learnings_list():
     entry = _make_entry()
     learnings = [
         KeyLearning(
+            title=f"Learning Title {i}",
             what=f"Learning {i}",
             why_it_matters=f"Reason {i}",
             how_to_apply=[f"Step {i}"],
+            resources_needed=f"Tool {i}",
+            estimated_time=f"{i * 10} minutes",
         )
         for i in range(5)
     ]

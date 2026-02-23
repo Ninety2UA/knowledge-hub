@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     # Gemini
     gemini_api_key: str = ""
 
+    # YouTube (optional — proxy to bypass cloud IP blocking)
+    youtube_proxy_url: str = ""
+
     # Scheduler
     scheduler_secret: str = ""
 

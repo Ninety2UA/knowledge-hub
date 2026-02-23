@@ -29,9 +29,12 @@ def _make_page(**overrides) -> NotionPage:
         "key_points": ["Point 1", "Point 2", "Point 3"],
         "key_learnings": [
             KeyLearning(
+                title="Testing Best Practices",
                 what="Testing matters",
                 why_it_matters="Catches bugs early",
                 how_to_apply=["Write tests", "Run in CI"],
+                resources_needed="pytest, CI pipeline",
+                estimated_time="30 minutes",
             )
         ],
         "detailed_notes": "Detailed notes about the article.",

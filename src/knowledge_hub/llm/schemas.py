@@ -12,9 +12,12 @@ from knowledge_hub.models.knowledge import Category, Priority
 class LLMKeyLearning(BaseModel):
     """A single structured learning block with What / Why / How structure."""
 
-    what: str
-    why_it_matters: str
-    how_to_apply: list[str] = Field(min_length=1)
+    title: str = Field(description="Short descriptive title for the learning heading")
+    what: str = Field(description="2-3 sentences explaining the concept/framework/insight")
+    why_it_matters: str = Field(description="1-2 sentences on relevance for performance marketing / AI / tech")
+    how_to_apply: list[str] = Field(min_length=1, description="Concrete sequential steps with time estimates")
+    resources_needed: str = Field(description="Tools, resources, or prerequisites needed")
+    estimated_time: str = Field(description="Total time estimate to complete the steps")
 
 
 class LLMResponse(BaseModel):

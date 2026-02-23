@@ -86,6 +86,16 @@ def extract_usage(response: object) -> TokenUsage:
     )
 
 
+def merge_usage(a: TokenUsage, b: TokenUsage) -> TokenUsage:
+    """Combine two TokenUsage records (e.g., transcription + analysis)."""
+    return TokenUsage(
+        prompt_tokens=a.prompt_tokens + b.prompt_tokens,
+        completion_tokens=a.completion_tokens + b.completion_tokens,
+        total_tokens=a.total_tokens + b.total_tokens,
+        cost_usd=a.cost_usd + b.cost_usd,
+    )
+
+
 def log_usage(url: str, usage: TokenUsage) -> None:
     """Log structured token usage data for a processed URL.
 

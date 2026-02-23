@@ -31,19 +31,28 @@ def _make_mock_llm_response() -> LLMResponse:
         ],
         key_learnings=[
             LLMKeyLearning(
+                title="Optimize Chunk Overlap",
                 what="Chunk overlap improves context",
                 why_it_matters="Prevents context loss at boundaries",
                 how_to_apply=["Set overlap to 10-20%"],
+                resources_needed="Vector database",
+                estimated_time="15 minutes",
             ),
             LLMKeyLearning(
+                title="Use Hybrid Search",
                 what="Hybrid search outperforms dense-only",
                 why_it_matters="Keyword matching catches exact terms",
                 how_to_apply=["Combine BM25 with vector search"],
+                resources_needed="Elasticsearch",
+                estimated_time="1 hour",
             ),
             LLMKeyLearning(
+                title="Add Re-ranking",
                 what="Re-ranking is worth the latency",
                 why_it_matters="Cross-encoder improves precision by 15-20%",
                 how_to_apply=["Add re-ranker after retrieval"],
+                resources_needed="Cross-encoder model",
+                estimated_time="30 minutes",
             ),
         ],
         detailed_notes="## RAG Architecture\n\nDetailed breakdown...",
@@ -140,9 +149,12 @@ async def test_process_content_maps_key_learnings():
         result, _ = await process_content(AsyncMock(), content)
 
     assert len(result.key_learnings) == 3
+    assert result.key_learnings[0].title == "Optimize Chunk Overlap"
     assert result.key_learnings[0].what == "Chunk overlap improves context"
     assert result.key_learnings[0].why_it_matters == "Prevents context loss at boundaries"
     assert result.key_learnings[0].how_to_apply == ["Set overlap to 10-20%"]
+    assert result.key_learnings[0].resources_needed == "Vector database"
+    assert result.key_learnings[0].estimated_time == "15 minutes"
 
 
 @pytest.mark.asyncio

@@ -12,7 +12,7 @@ def _make_valid_llm_response() -> dict:
     return {
         "title": "Understanding RAG Pipelines",
         "summary": "A comprehensive guide to building RAG pipelines for LLM applications.",
-        "category": "Engineering",
+        "category": "Engineering & Development",
         "priority": "High",
         "tags": ["engineering", "llms", "architecture"],
         "summary_section": "This article covers the fundamentals of RAG pipeline design.",
@@ -25,19 +25,28 @@ def _make_valid_llm_response() -> dict:
         ],
         "key_learnings": [
             {
+                "title": "Use Chunk Overlap for Context Continuity",
                 "what": "Chunk overlap improves context continuity",
                 "why_it_matters": "Without overlap, key context can be split across chunks",
                 "how_to_apply": ["Set chunk overlap to 10-20% of chunk size"],
+                "resources_needed": "Vector database, chunking library",
+                "estimated_time": "15-30 minutes",
             },
             {
+                "title": "Combine Dense and Sparse Retrieval",
                 "what": "Hybrid search outperforms dense-only retrieval",
                 "why_it_matters": "Keyword matching catches exact terms that embeddings miss",
                 "how_to_apply": ["Combine BM25 with vector search", "Weight keyword at 0.3"],
+                "resources_needed": "Elasticsearch or similar hybrid search engine",
+                "estimated_time": "1-2 hours",
             },
             {
+                "title": "Add Re-ranking After Retrieval",
                 "what": "Re-ranking is worth the latency cost",
                 "why_it_matters": "Cross-encoder re-ranking improves precision by 15-20%",
                 "how_to_apply": ["Add a re-ranker after initial retrieval"],
+                "resources_needed": "Cross-encoder model (e.g., ms-marco)",
+                "estimated_time": "30-60 minutes",
             },
         ],
         "detailed_notes": "## RAG Pipeline Architecture\n\nDetailed breakdown of components...",
@@ -67,7 +76,7 @@ def test_llm_response_requires_title():
 def test_llm_response_category_enum():
     """Valid category string maps to Category enum."""
     data = _make_valid_llm_response()
-    data["category"] = "Engineering"
+    data["category"] = "Engineering & Development"
     result = LLMResponse(**data)
     assert result.category == Category.ENGINEERING
 
@@ -132,18 +141,25 @@ def test_llm_key_learning_how_to_apply_nonempty():
     """LLMKeyLearning with empty how_to_apply raises ValidationError."""
     with pytest.raises(ValidationError):
         LLMKeyLearning(
+            title="Some Learning",
             what="Some insight",
             why_it_matters="Important reason",
             how_to_apply=[],
+            resources_needed="None",
+            estimated_time="5 minutes",
         )
 
 
 def test_llm_key_learning_valid():
     """Valid LLMKeyLearning parses successfully."""
     kl = LLMKeyLearning(
+        title="Optimize Chunk Overlap",
         what="Chunk overlap improves context",
         why_it_matters="Prevents context loss at boundaries",
         how_to_apply=["Set overlap to 10-20%", "Test with sample queries"],
+        resources_needed="Vector database",
+        estimated_time="15-30 minutes",
     )
+    assert kl.title == "Optimize Chunk Overlap"
     assert kl.what == "Chunk overlap improves context"
     assert len(kl.how_to_apply) == 2

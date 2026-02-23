@@ -12,16 +12,16 @@ class Category(str, Enum):
     """Fixed categories for knowledge entries (11 values)."""
 
     AI_ML = "AI & Machine Learning"
-    MARKETING = "Marketing"
-    PRODUCT = "Product"
-    GROWTH = "Growth"
-    ANALYTICS = "Analytics"
-    ENGINEERING = "Engineering"
-    DESIGN = "Design"
-    BUSINESS = "Business"
-    CAREER = "Career"
-    PRODUCTIVITY = "Productivity"
-    OTHER = "Other"
+    MARKETING_GROWTH = "Marketing & Growth"
+    AD_TECH = "Ad Tech & Media"
+    PRODUCT_STRATEGY = "Product & Strategy"
+    ENGINEERING = "Engineering & Development"
+    DATA_ANALYTICS = "Data & Analytics"
+    CAREER = "Career & Professional Development"
+    PRODUCTIVITY = "Productivity & Systems"
+    DESIGN = "Design & UX"
+    BUSINESS = "Business & Finance"
+    MISCELLANEOUS = "Miscellaneous"
 
 
 class Priority(str, Enum):
